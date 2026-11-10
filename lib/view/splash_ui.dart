@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
-import 'package:flutter_application_massage/view/login_ui.dart';
+import 'package:flutter_application_massage/view/landing_ui.dart.dart';
+
 
 class SplashUi extends StatefulWidget {
   const SplashUi({super.key});
@@ -30,7 +31,7 @@ class _SplashUiState extends State<SplashUi>
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => const LoginUi(),
+          builder: (context) => const LandingUi(), // เปลี่ยนเป็นหน้าที่ต้องการไป
         ),  
       );
     });

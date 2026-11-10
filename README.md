@@ -1,16 +1,30 @@
-# flutter_application_massage
+# MASSAGE AI
 
-A new Flutter project.
+Flutter Web demo for a massage-service chat and booking flow.
 
-## Getting Started
+## Deploy to Vercel
 
-This project is a starting point for a Flutter application.
+1. Push this repository to GitHub and import it as a project in Vercel.
+2. In **Project Settings > Environment Variables**, add `GEMINI_API_KEY` with
+   the Gemini API key. Enable it for the deployment environments you will use.
+   Do not upload or commit the local `.env` file.
+3. Keep the project root as the Root Directory. Vercel uses `vercel.json` to
+   install Flutter when it is not already available, build the web app, and
+   publish `build/web`.
+4. Deploy or redeploy the project after adding the environment variable.
 
-A few resources to get you started if this is your first Flutter project:
+The build fails with a clear message if `GEMINI_API_KEY` is missing. For a
+local web build, provide the key through `--dart-define` without putting it in
+source control:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+```bash
+flutter build web --release --dart-define=GEMINI_API_KEY=your-key
+```
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+**Demo security note:** Flutter Web includes the Gemini key in browser-delivered
+code. Anyone can inspect it after deployment. This setup is suitable only for a
+temporary presentation demo; use a backend proxy for a public/production app,
+and rotate the key after presenting.
+
+Bookings are stored in local memory only and are cleared when the page is
+reloaded. They are demo bookings, not real appointments.

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_massage/view/model/booking_draft_model.dart';
 
 // ====================== Model ======================
 
@@ -24,6 +25,7 @@ class BookingModel {
   final int startMinute;
   final int durationMinutes;
   final String therapist;
+  final String? customerName;
   final double price;
   final BookingStatus status;
   final DateTime createdAt;
@@ -38,6 +40,7 @@ class BookingModel {
     this.startMinute = 0,
     required this.durationMinutes,
     required this.therapist,
+    this.customerName,
     required this.price,
     required this.status,
     required this.createdAt,
@@ -50,7 +53,8 @@ class BookingModel {
   DateTime get endDateTime =>
       startDateTime.add(Duration(minutes: durationMinutes));
 
-  String get timeRange => '${_fmtTime(startDateTime)} – ${_fmtTime(endDateTime)} น.';
+  String get timeRange =>
+      '${_fmtTime(startDateTime)} – ${_fmtTime(endDateTime)} น.';
 
   BookingModel copyWith({BookingStatus? status, String? cancelReason}) =>
       BookingModel(
@@ -62,6 +66,7 @@ class BookingModel {
         startMinute: startMinute,
         durationMinutes: durationMinutes,
         therapist: therapist,
+        customerName: customerName,
         price: price,
         status: status ?? this.status,
         createdAt: createdAt,
@@ -72,8 +77,18 @@ class BookingModel {
 // ====================== ตัวช่วย ======================
 
 const _thaiMonths = [
-  'มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน',
-  'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม',
+  'มกราคม',
+  'กุมภาพันธ์',
+  'มีนาคม',
+  'เมษายน',
+  'พฤษภาคม',
+  'มิถุนายน',
+  'กรกฎาคม',
+  'สิงหาคม',
+  'กันยายน',
+  'ตุลาคม',
+  'พฤศจิกายน',
+  'ธันวาคม',
 ];
 
 String _fmtDate(DateTime d) =>
@@ -84,10 +99,9 @@ String _fmtTime(DateTime d) =>
 
 String _fmtDateTime(DateTime d) => '${_fmtDate(d)} ${_fmtTime(d)} น.';
 
-String _money(double v) => v.toStringAsFixed(0).replaceAllMapped(
-      RegExp(r'\B(?=(\d{3})+(?!\d))'),
-      (m) => ',',
-    );
+String _money(double v) => v
+    .toStringAsFixed(0)
+    .replaceAllMapped(RegExp(r'\B(?=(\d{3})+(?!\d))'), (m) => ',');
 
 String _duration(int minutes) {
   final h = minutes ~/ 60;
@@ -116,7 +130,27 @@ class _MyBookingUiState extends State<MyBookingUi> {
   static const _shopPhone = '02-123-4567'; // TODO: ใส่เบอร์ร้านจริง
 
   // TODO: เปลี่ยนเป็นดึงข้อมูลจาก Supabase (ตาราง bookings ของลูกค้าที่ล็อกอิน)
-  late final List<BookingModel> _bookings = _sampleData();
+  late final List<BookingModel> _bookings = [
+    ..._sampleData(),
+    ...DemoBookingStore.bookings.map(_fromDemoBooking),
+  ];
+
+  static BookingModel _fromDemoBooking(DemoBooking booking) {
+    final timeParts = booking.time.split(':');
+    return BookingModel(
+      id: booking.id,
+      serviceName: booking.service.name,
+      date: booking.date,
+      startHour: int.parse(timeParts[0]),
+      startMinute: int.parse(timeParts[1]),
+      durationMinutes: booking.service.durationMinutes,
+      therapist: 'ยังไม่ระบุ (Demo)',
+      customerName: booking.customerName,
+      price: booking.service.priceBaht.toDouble(),
+      status: BookingStatus.pending,
+      createdAt: DateTime.now(),
+    );
+  }
 
   static List<BookingModel> _sampleData() {
     final now = DateTime.now();
@@ -208,7 +242,8 @@ class _MyBookingUiState extends State<MyBookingUi> {
   // ---------- ข้อมูลที่กรองแล้ว ----------
 
   List<BookingModel> get _filtered {
-    final list = _bookings.where((b) => _filter == null || b.status == _filter).toList();
+    final list =
+        _bookings.where((b) => _filter == null || b.status == _filter).toList();
     // ใหม่ไปเก่า
     list.sort((a, b) => b.startDateTime.compareTo(a.startDateTime));
     return list;
@@ -228,8 +263,9 @@ class _MyBookingUiState extends State<MyBookingUi> {
 
   /// ตรวจนโยบายการยกเลิก: ต้องยกเลิกก่อนถึงคิวอย่างน้อย N ชั่วโมง
   bool _withinPolicy(BookingModel b) {
-    final deadline =
-        b.startDateTime.subtract(const Duration(hours: _cancelBeforeHours));
+    final deadline = b.startDateTime.subtract(
+      const Duration(hours: _cancelBeforeHours),
+    );
     return DateTime.now().isBefore(deadline);
   }
 
@@ -238,21 +274,26 @@ class _MyBookingUiState extends State<MyBookingUi> {
     if (!_withinPolicy(b)) {
       await showDialog(
         context: context,
-        builder: (ctx) => AlertDialog(
-          icon: const Icon(Icons.info_outline, color: Colors.orange, size: 48),
-          title: const Text('ไม่สามารถยกเลิกได้'),
-          content: Text(
-            'ต้องยกเลิกล่วงหน้าอย่างน้อย $_cancelBeforeHours ชั่วโมงก่อนเวลานัด\n'
-            'กรุณาติดต่อร้านโดยตรงที่ $_shopPhone',
-            textAlign: TextAlign.center,
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(ctx),
-              child: const Text('ตกลง'),
+        builder:
+            (ctx) => AlertDialog(
+              icon: const Icon(
+                Icons.info_outline,
+                color: Colors.orange,
+                size: 48,
+              ),
+              title: const Text('ไม่สามารถยกเลิกได้'),
+              content: Text(
+                'ต้องยกเลิกล่วงหน้าอย่างน้อย $_cancelBeforeHours ชั่วโมงก่อนเวลานัด\n'
+                'กรุณาติดต่อร้านโดยตรงที่ $_shopPhone',
+                textAlign: TextAlign.center,
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(ctx),
+                  child: const Text('ตกลง'),
+                ),
+              ],
             ),
-          ],
-        ),
       );
       return;
     }
@@ -274,29 +315,30 @@ class _MyBookingUiState extends State<MyBookingUi> {
     });
 
     if (!mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('ยกเลิกการจอง #${b.id} แล้ว')),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text('ยกเลิกการจอง #${b.id} แล้ว')));
   }
 
   void _contactShop(BookingModel b) {
     // TODO: ใช้แพ็กเกจ url_launcher โทรออกหรือเปิด LINE ของร้าน
     showDialog(
       context: context,
-      builder: (ctx) => AlertDialog(
-        icon: const Icon(Icons.support_agent, size: 48),
-        title: const Text('ติดต่อร้าน'),
-        content: Text(
-          'สอบถามเรื่องการจอง #${b.id}\nโทร $_shopPhone',
-          textAlign: TextAlign.center,
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx),
-            child: const Text('ปิด'),
+      builder:
+          (ctx) => AlertDialog(
+            icon: const Icon(Icons.support_agent, size: 48),
+            title: const Text('ติดต่อร้าน'),
+            content: Text(
+              'สอบถามเรื่องการจอง #${b.id}\nโทร $_shopPhone',
+              textAlign: TextAlign.center,
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(ctx),
+                child: const Text('ปิด'),
+              ),
+            ],
           ),
-        ],
-      ),
     );
   }
 
@@ -319,24 +361,28 @@ class _MyBookingUiState extends State<MyBookingUi> {
         final primary = Theme.of(ctx).colorScheme.primary;
 
         Widget row(IconData icon, String label, String value) => Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Icon(icon, size: 20, color: primary),
-                  const SizedBox(width: 12),
-                  SizedBox(
-                    width: 96,
-                    child: Text(label,
-                        style: TextStyle(color: Colors.grey.shade600)),
-                  ),
-                  Expanded(
-                    child: Text(value,
-                        style: const TextStyle(fontWeight: FontWeight.w600)),
-                  ),
-                ],
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Icon(icon, size: 20, color: primary),
+              const SizedBox(width: 12),
+              SizedBox(
+                width: 96,
+                child: Text(
+                  label,
+                  style: TextStyle(color: Colors.grey.shade600),
+                ),
               ),
-            );
+              Expanded(
+                child: Text(
+                  value,
+                  style: const TextStyle(fontWeight: FontWeight.w600),
+                ),
+              ),
+            ],
+          ),
+        );
 
         return SingleChildScrollView(
           padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
@@ -346,9 +392,13 @@ class _MyBookingUiState extends State<MyBookingUi> {
               Row(
                 children: [
                   Expanded(
-                    child: Text('Booking #${b.id}',
-                        style: const TextStyle(
-                            fontSize: 22, fontWeight: FontWeight.w800)),
+                    child: Text(
+                      'Booking #${b.id}',
+                      style: const TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
                   ),
                   _StatusBadge(status: b.status),
                 ],
@@ -433,23 +483,24 @@ class _MyBookingUiState extends State<MyBookingUi> {
           ),
         ],
       ),
-      body: _bookings.isEmpty
-          ? _buildEmptyState()
-          : ListView(
-              padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
-              children: [
-                _buildHeader(),
-                const SizedBox(height: 16),
-                _buildStats(),
-                const SizedBox(height: 20),
-                _buildFilterTabs(),
-                const SizedBox(height: 16),
-                if (items.isEmpty)
-                  _buildNoResult()
-                else
-                  ...items.map(_buildBookingCard),
-              ],
-            ),
+      body:
+          _bookings.isEmpty
+              ? _buildEmptyState()
+              : ListView(
+                padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
+                children: [
+                  _buildHeader(),
+                  const SizedBox(height: 16),
+                  _buildStats(),
+                  const SizedBox(height: 20),
+                  _buildFilterTabs(),
+                  const SizedBox(height: 16),
+                  if (items.isEmpty)
+                    _buildNoResult()
+                  else
+                    ...items.map(_buildBookingCard),
+                ],
+              ),
     );
   }
 
@@ -458,11 +509,15 @@ class _MyBookingUiState extends State<MyBookingUi> {
     return const Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('การจองของฉัน',
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.w800)),
+        Text(
+          'การจองของฉัน',
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.w800),
+        ),
         SizedBox(height: 4),
-        Text('ตรวจสอบและจัดการรายการจองบริการของคุณ',
-            style: TextStyle(color: Colors.grey)),
+        Text(
+          'ตรวจสอบและจัดการรายการจองบริการของคุณ',
+          style: TextStyle(color: Colors.grey),
+        ),
       ],
     );
   }
@@ -470,8 +525,8 @@ class _MyBookingUiState extends State<MyBookingUi> {
   // ---------- ส่วนที่ 2: สรุปสถานะ ----------
   Widget _buildStats() {
     final pending = _count(BookingStatus.pending);
-    final confirmed = _count(BookingStatus.confirmed) +
-        _count(BookingStatus.inProgress);
+    final confirmed =
+        _count(BookingStatus.confirmed) + _count(BookingStatus.inProgress);
     final completed = _count(BookingStatus.completed);
 
     return GridView.count(
@@ -523,24 +578,26 @@ class _MyBookingUiState extends State<MyBookingUi> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('เลือกสถานะการจอง',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
+        const Text(
+          'เลือกสถานะการจอง',
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+        ),
         const SizedBox(height: 10),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
-            children: tabs.map((t) {
-              final count =
-                  t.$2 == null ? _bookings.length : _count(t.$2!);
-              return Padding(
-                padding: const EdgeInsets.only(right: 8),
-                child: ChoiceChip(
-                  label: Text('${t.$1} ($count)'),
-                  selected: _filter == t.$2,
-                  onSelected: (_) => setState(() => _filter = t.$2),
-                ),
-              );
-            }).toList(),
+            children:
+                tabs.map((t) {
+                  final count = t.$2 == null ? _bookings.length : _count(t.$2!);
+                  return Padding(
+                    padding: const EdgeInsets.only(right: 8),
+                    child: ChoiceChip(
+                      label: Text('${t.$1} ($count)'),
+                      selected: _filter == t.$2,
+                      onSelected: (_) => setState(() => _filter = t.$2),
+                    ),
+                  );
+                }).toList(),
           ),
         ),
       ],
@@ -563,14 +620,25 @@ class _MyBookingUiState extends State<MyBookingUi> {
             Row(
               children: [
                 Expanded(
-                  child: Text('Booking #${b.id}',
-                      style: TextStyle(
-                          color: Colors.grey.shade700,
-                          fontWeight: FontWeight.w600)),
+                  child: Text(
+                    'Booking #${b.id}',
+                    style: TextStyle(
+                      color: Colors.grey.shade700,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                 ),
                 _StatusBadge(status: b.status),
               ],
             ),
+            if (b.id.startsWith('DEMO-'))
+              const Padding(
+                padding: EdgeInsets.only(top: 4),
+                child: Chip(
+                  label: Text('DEMO · ไม่ใช่คิวจริง'),
+                  visualDensity: VisualDensity.compact,
+                ),
+              ),
             const SizedBox(height: 12),
             Row(
               children: [
@@ -580,14 +648,19 @@ class _MyBookingUiState extends State<MyBookingUi> {
                     width: 72,
                     height: 72,
                     color: scheme.primaryContainer,
-                    child: b.imageUrl != null
-                        ? Image.network(
-                            b.imageUrl!,
-                            fit: BoxFit.cover,
-                            errorBuilder: (_, __, ___) =>
-                                Icon(Icons.spa, color: scheme.primary, size: 30),
-                          )
-                        : Icon(Icons.spa, color: scheme.primary, size: 30),
+                    child:
+                        b.imageUrl != null
+                            ? Image.network(
+                              b.imageUrl!,
+                              fit: BoxFit.cover,
+                              errorBuilder:
+                                  (_, __, ___) => Icon(
+                                    Icons.spa,
+                                    color: scheme.primary,
+                                    size: 30,
+                                  ),
+                            )
+                            : Icon(Icons.spa, color: scheme.primary, size: 30),
                   ),
                 ),
                 const SizedBox(width: 14),
@@ -595,20 +668,29 @@ class _MyBookingUiState extends State<MyBookingUi> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(b.serviceName,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                              fontSize: 17, fontWeight: FontWeight.w700)),
+                      Text(
+                        b.serviceName,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
                       const SizedBox(height: 2),
-                      Text('ระยะเวลา ${_duration(b.durationMinutes)}',
-                          style: const TextStyle(fontSize: 13)),
+                      Text(
+                        'ระยะเวลา ${_duration(b.durationMinutes)}',
+                        style: const TextStyle(fontSize: 13),
+                      ),
                       const SizedBox(height: 2),
-                      Text('${_money(b.price)} บาท',
-                          style: TextStyle(
-                              color: scheme.primary,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w800)),
+                      Text(
+                        '${_money(b.price)} บาท',
+                        style: TextStyle(
+                          color: scheme.primary,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -618,6 +700,13 @@ class _MyBookingUiState extends State<MyBookingUi> {
             _InfoLine(icon: Icons.calendar_month, text: _fmtDate(b.date)),
             const SizedBox(height: 6),
             _InfoLine(icon: Icons.schedule, text: b.timeRange),
+            if (b.customerName != null) ...[
+              const SizedBox(height: 6),
+              _InfoLine(
+                icon: Icons.person_outline,
+                text: 'ผู้จอง: ${b.customerName}',
+              ),
+            ],
             const SizedBox(height: 6),
             _InfoLine(icon: Icons.person, text: 'พนักงาน: ${b.therapist}'),
             const SizedBox(height: 14),
@@ -634,7 +723,8 @@ class _MyBookingUiState extends State<MyBookingUi> {
                   Expanded(
                     child: FilledButton(
                       style: FilledButton.styleFrom(
-                          backgroundColor: Colors.red.shade600),
+                        backgroundColor: Colors.red.shade600,
+                      ),
                       onPressed: () => _cancelBooking(b),
                       child: const Text('ยกเลิกการจอง'),
                     ),
@@ -659,16 +749,18 @@ class _MyBookingUiState extends State<MyBookingUi> {
   }
 
   Widget _buildNoResult() => Padding(
-        padding: const EdgeInsets.symmetric(vertical: 40),
-        child: Column(
-          children: [
-            Icon(Icons.inbox_outlined, size: 56, color: Colors.grey.shade400),
-            const SizedBox(height: 8),
-            Text('ไม่มีรายการในสถานะนี้',
-                style: TextStyle(color: Colors.grey.shade600)),
-          ],
+    padding: const EdgeInsets.symmetric(vertical: 40),
+    child: Column(
+      children: [
+        Icon(Icons.inbox_outlined, size: 56, color: Colors.grey.shade400),
+        const SizedBox(height: 8),
+        Text(
+          'ไม่มีรายการในสถานะนี้',
+          style: TextStyle(color: Colors.grey.shade600),
         ),
-      );
+      ],
+    ),
+  );
 
   // ---------- ส่วนที่ 6: Empty State ----------
   Widget _buildEmptyState() {
@@ -689,8 +781,10 @@ class _MyBookingUiState extends State<MyBookingUi> {
               child: Icon(Icons.event_busy, size: 56, color: scheme.primary),
             ),
             const SizedBox(height: 24),
-            const Text('ยังไม่มีรายการจอง',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800)),
+            const Text(
+              'ยังไม่มีรายการจอง',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800),
+            ),
             const SizedBox(height: 8),
             Text(
               'คุณยังไม่มีรายการจองบริการ\nเริ่มต้นผ่อนคลายด้วยการจองบริการที่คุณชื่นชอบได้เลย',
@@ -742,26 +836,35 @@ class _StatCard extends StatelessWidget {
               Icon(icon, color: color.shade700, size: 20),
               const SizedBox(width: 6),
               Expanded(
-                child: Text(label,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        color: color.shade900, fontWeight: FontWeight.w600)),
+                child: Text(
+                  label,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: color.shade900,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
               ),
             ],
           ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text(value,
-                  style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.w800,
-                      color: color.shade800)),
+              Text(
+                value,
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.w800,
+                  color: color.shade800,
+                ),
+              ),
               const SizedBox(width: 6),
               Padding(
                 padding: const EdgeInsets.only(bottom: 5),
-                child: Text('รายการ',
-                    style: TextStyle(fontSize: 12, color: color.shade700)),
+                child: Text(
+                  'รายการ',
+                  style: TextStyle(fontSize: 12, color: color.shade700),
+                ),
               ),
             ],
           ),
@@ -787,7 +890,10 @@ class _StatusBadge extends StatelessWidget {
       child: Text(
         status.label,
         style: TextStyle(
-            color: c.shade800, fontSize: 12, fontWeight: FontWeight.w700),
+          color: c.shade800,
+          fontSize: 12,
+          fontWeight: FontWeight.w700,
+        ),
       ),
     );
   }
@@ -856,14 +962,17 @@ class _CancelDialogState extends State<_CancelDialog> {
               groupValue: _selected,
               onChanged: (v) => setState(() => _selected = v),
               child: Column(
-                children: _reasons
-                    .map((r) => RadioListTile<String>(
-                          contentPadding: EdgeInsets.zero,
-                          dense: true,
-                          title: Text(r),
-                          value: r,
-                        ))
-                    .toList(),
+                children:
+                    _reasons
+                        .map(
+                          (r) => RadioListTile<String>(
+                            contentPadding: EdgeInsets.zero,
+                            dense: true,
+                            title: Text(r),
+                            value: r,
+                          ),
+                        )
+                        .toList(),
               ),
             ),
             if (_selected == 'อื่น ๆ')
@@ -886,9 +995,10 @@ class _CancelDialogState extends State<_CancelDialog> {
         ),
         FilledButton(
           style: FilledButton.styleFrom(backgroundColor: Colors.red),
-          onPressed: !_valid
-              ? null
-              : () => Navigator.pop(
+          onPressed:
+              !_valid
+                  ? null
+                  : () => Navigator.pop(
                     context,
                     _selected == 'อื่น ๆ' ? _otherCtrl.text.trim() : _selected,
                   ),
