@@ -97,7 +97,7 @@
 
 # 📱 ภาพตัวอย่างการใช้งาน (Application Showcase)
 
-## 01 — Splash Screen
+## 01  Splash Screen
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/ba998142-0346-4eaf-aced-3877461b8f3a" width="250" alt="ZenTouch Splash Screen"/>
@@ -209,10 +209,3 @@
   <strong>นางสาวรัตนากร สุระ</strong><br/>
   <sub>Student ID: 6752410029</sub>
   <br/><br/>
-  <i>Crafted with passion, powered by technology.</i>
-</p>
-
-<p align="center">
-  Designed with Care. Powered by Flutter & Gemini AI.
-</p>
-
