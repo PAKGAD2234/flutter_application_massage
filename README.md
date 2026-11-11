@@ -1,182 +1,218 @@
-# 🌿 ZenTouch  แอปพลิเคชันจองบริการนวดพร้อมผู้ช่วย AI(miniproject)
+# 🌿 ZenTouch AI-Powered Massage Booking Application (MiniPoject)
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/ba998142-0346-4eaf-aced-3877461b8f3a" width="180" alt="ZenTouch Splash Screen"/>
+  <img src="https://github.com/user-attachments/assets/ba998142-0346-4eaf-aced-3877461b8f3a" width="190" alt="ZenTouch Splash Screen"/>
 </p>
 
-<h3 align="center">ผ่อนคลายได้ง่ายขึ้น จองบริการได้สะดวกกว่าเดิม</h3>
+<h3 align="center">Your Relaxation, Just a Conversation Away.</h3>
 
 <p align="center">
-  แอปพลิเคชันจองบริการนวดที่ออกแบบมาเพื่อยกระดับประสบการณ์ของลูกค้า ด้วยการจองผ่าน AI Chat และระบบจองด้วยตนเอง
+  เว็บแอปพลิเคชันสำหรับจองบริการนวด ที่ผสานการพัฒนาด้วย Flutter เข้ากับ Google Gemini AI<br/>
+  เพื่อสร้างประสบการณ์การจองที่สะดวกสบาย ผ่านทั้งการสนทนากับ AI และการจองด้วยตนเอง
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Flutter-Framework-02569B?style=for-the-badge&logo=flutter&logoColor=white" />
-  <img src="https://img.shields.io/badge/Dart-Programming%20Language-0175C2?style=for-the-badge&logo=dart&logoColor=white" />
-  <img src="https://img.shields.io/badge/Project-Mobile%20Application-9C6ADE?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Flutter-Framework-02569B?style=for-the-badge&logo=flutter&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Dart-Programming%20Language-0175C2?style=for-the-badge&logo=dart&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Google%20Gemini-Generative%20AI-8E75B2?style=for-the-badge&logo=googlegemini&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Focus-Frontend%20Development-2E8B57?style=for-the-badge"/>
 </p>
 
 ---
 
-## ✨ เกี่ยวกับโปรเจกต์
+## 📌 เกี่ยวกับโปรเจกต์ (Project Overview)
 
-**ZenTouch** คือโปรเจกต์พัฒนาเว็บแอปพลิเคชันด้วย Flutter และ Dart สำหรับการจองบริการนวด โดยมุ่งเน้นการออกแบบประสบการณ์ใช้งานของลูกค้าให้สะดวก เข้าใจง่าย และลดความยุ่งยากในขั้นตอนการจอง
+**ZenTouch** เป็นโปรเจกต์พัฒนาเว็บแอปพลิเคชันสำหรับจองบริการนวด โดยใช้ Flutter และ Dart ในการพัฒนาส่วนติดต่อผู้ใช้งาน (User Interface) พร้อมนำ Google Gemini AI มาประยุกต์ใช้กับแนวคิดการจองบริการผ่านบทสนทนา (AI Conversational Booking)
 
-จุดเด่นของแอปพลิเคชันคือการนำแนวคิด AI Conversational Booking มาใช้กับกระบวนการจองบริการ ลูกค้าสามารถพูดคุยกับผู้ช่วย AI ผ่านหน้าจอแชท เพื่อระบุความต้องการและรวบรวมรายละเอียดการจองให้อยู่ในรูปแบบที่เข้าใจง่าย
+แนวคิดหลักของโปรเจกต์คือการลดความยุ่งยากในขั้นตอนการจอง ลูกค้าสามารถเลือกได้ว่าจะจองผ่าน AI โดยการพูดคุยและระบุความต้องการ หรือเลือกบริการและกำหนดเวลานัดหมายด้วยตนเอง
 
-นอกจากนี้ยังรองรับการจองด้วยตนเอง สำหรับลูกค้าที่ต้องการเลือกบริการ ระยะเวลาการนวด และเวลานัดหมายด้วยตัวเอง
+นอกจากระบบจองแล้ว ยังออกแบบหน้าจอสำหรับติดตามสถานะการจอง จัดการข้อมูลส่วนตัว และตั้งค่าบัญชี เพื่อให้การใช้งานภายในแอปพลิเคชันเป็นไปอย่างต่อเนื่องและเป็นระบบ
 
-## 🚀 ฟีเจอร์หลัก
+## ✨ จุดเด่นของโปรเจกต์ (Key Highlights)
 
-### 1. 🏠 หน้าหลักและรายการบริการ
+- **AI-Powered Booking:** ประยุกต์ใช้ Google Gemini AI กับแนวคิดการจองบริการผ่านบทสนทนา
+- **Dual Booking Experience:** รองรับทั้งการจองผ่าน AI และการจองด้วยตนเอง
+- **Booking Management:** ออกแบบระบบแสดงรายการและติดตามสถานะการจอง
+- **Customer-Centric UI:** ออกแบบหน้าจอโดยคำนึงถึงความสะดวกและประสบการณ์ของลูกค้า
+- **Responsive Web Application:** พัฒนาด้วย Flutter สำหรับประสบการณ์ใช้งานบนหน้าจอที่หลากหลาย
+
+---
+
+## 🚀 ฟีเจอร์ภายในแอปพลิเคชัน (Application Features)
+
+### 01. 🏠 Home & Service Discovery
+
+หน้าหลักสำหรับค้นหาและเลือกบริการนวด
+
 - แสดงรายการบริการนวดที่เปิดให้บริการ
 - แสดงรายละเอียดและราคาของแต่ละบริการ
-- เข้าถึงระบบจองผ่าน AI ได้จากหน้าหลัก
-- ออกแบบหน้าจอให้ใช้งานง่าย พร้อมบรรยากาศที่สื่อถึงความผ่อนคลาย
+- เข้าถึงระบบจองผ่าน AI ได้โดยตรง
+- ออกแบบหน้าจอให้เรียบง่ายและสื่อถึงบรรยากาศแห่งการผ่อนคลาย
 
-### 2. 🤖 ระบบจองผ่าน AI (AI Conversational Booking)
-- หน้าจอสนทนาระหว่างลูกค้ากับ AI
-- รองรับการรวบรวมข้อมูลการจองผ่านบทสนทนา
-- แสดงข้อมูลการจองในรูปแบบสรุป
-- ลูกค้าสามารถตรวจสอบรายละเอียดก่อนดำเนินการต่อได้
+### 02. 🤖 AI Conversational Booking
 
-**ข้อมูลที่แสดงในสรุปการจอง**
+ระบบช่วยจองบริการผ่านบทสนทนา โดยใช้ Google Gemini AI
+
+- ออกแบบ Chat Interface สำหรับการพูดคุยระหว่างลูกค้ากับ AI
+- รองรับการโต้ตอบและรวบรวมความต้องการในการจอง
+- ช่วยจัดระเบียบข้อมูลการจองให้อยู่ในรูปแบบที่เข้าใจง่าย
+- แสดงสรุปรายละเอียดการจองเพื่อให้ลูกค้าตรวจสอบ
+
+**รายละเอียดที่รวบรวมในการจอง**
 - ชื่อผู้จอง
-- รายการบริการที่เลือก
+- บริการที่เลือก
 - ราคาค่าบริการ
-- วันที่และเวลาที่นัดหมาย
+- วันที่และเวลานัดหมาย
 
-### 3. 📅 ระบบจองด้วยตนเอง (Manual Booking)
-- เลือกบริการนวดที่ต้องการ
+### 03. 📅 Manual Booking
+
+ระบบจองบริการด้วยตนเอง โดยไม่จำเป็นต้องผ่าน AI
+
+- เลือกรายการบริการนวด
 - เลือกระยะเวลาการนวดเป็นชั่วโมง
 - เลือกวันและเวลาที่ต้องการเข้ารับบริการ
-- ตรวจสอบรายละเอียดการจองก่อนดำเนินการ
+- ตรวจสอบรายละเอียดการจอง
 
-### 4. 📋 หน้าจัดการรายการจอง (Booking Management)
-- แสดงรายการจองทั้งหมดของลูกค้า
-- สรุปจำนวนรายการจองและบริการที่ใช้
+### 04. 📋 Booking Management
+
+หน้าจัดการรายการจองสำหรับลูกค้า
+
+- แสดงรายการจองทั้งหมด
+- แสดงจำนวนรายการจองและบริการที่เลือก
 - แสดงสถานะของแต่ละรายการ
 - แยกรายการที่กำลังดำเนินการและรายการที่เสร็จสิ้นแล้ว
-- ตรวจสอบรายละเอียดการจองแต่ละรายการได้
+- ตรวจสอบรายละเอียดการจองแต่ละรายการ
 
-### 5. 👤 โปรไฟล์และการตั้งค่า (Profile & Settings)
-- แสดงข้อมูลส่วนตัวของผู้ใช้งาน
+### 05. 👤 Profile & Settings
+
+หน้าจัดการข้อมูลส่วนตัวและการตั้งค่าบัญชี
+
+- แสดงข้อมูลโปรไฟล์ผู้ใช้งาน
 - จัดการข้อมูลบัญชีเบื้องต้น
 - เปลี่ยนรหัสผ่าน
 - เปิดและปิดเสียงแจ้งเตือน
-- เข้าถึงเมนูตั้งค่าต่าง ๆ ภายในแอปพลิเคชัน
+- เข้าถึงเมนูตั้งค่าต่าง ๆ
 
 ---
 
-## 📱 ภาพตัวอย่างการใช้งาน (Application Preview)
+# 📱 ภาพตัวอย่างการใช้งาน (Application Showcase)
 
-### 01 — Splash Screen
-
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/ba998142-0346-4eaf-aced-3877461b8f3a" width="250" alt="หน้าเริ่มต้นแอปพลิเคชัน"/>
-</p>
-
-### 02 — หน้าหลักและรายการบริการ
+## 01 — Splash Screen
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/853d8ef1-0516-495d-a273-d291a3ddcd88" width="280" alt="หน้าหลัก"/>
+  <img src="https://github.com/user-attachments/assets/ba998142-0346-4eaf-aced-3877461b8f3a" width="250" alt="ZenTouch Splash Screen"/>
 </p>
 
-แสดงรายการบริการนวด พร้อมช่องทางเข้าสู่ระบบจองผ่าน AI
+หน้าจอเริ่มต้นของแอปพลิเคชัน ZenTouch ออกแบบให้สื่อถึงความผ่อนคลายและเอกลักษณ์ของแบรนด์
 
-### 03 — สนทนากับ AI เพื่อจองบริการ
+## 02  Home Screen
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/5122b569-72d2-4d58-a322-2d111e30bb7f" width="280" alt="หน้าจองผ่าน AI"/>
+  <img src="https://github.com/user-attachments/assets/853d8ef1-0516-495d-a273-d291a3ddcd88" width="280" alt="ZenTouch Home Screen"/>
+</p>
+
+หน้าหลักที่รวบรวมบริการนวด พร้อมช่องทางเข้าสู่ระบบจองผ่าน AI
+
+## 03  AI Booking & Chat Interface
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/5122b569-72d2-4d58-a322-2d111e30bb7f" width="280" alt="AI Booking"/>
 </p>
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/b9bd1ee7-0143-4865-b2f8-d80f1fa7f35e" width="350" alt="หน้าสนทนากับ AI"/>
+  <img src="https://github.com/user-attachments/assets/b9bd1ee7-0143-4865-b2f8-d80f1fa7f35e" width="350" alt="AI Chat Interface"/>
 </p>
 
-ออกแบบประสบการณ์การจองผ่านบทสนทนา เพื่อให้ลูกค้าสามารถแจ้งความต้องการและให้ AI ช่วยรวบรวมข้อมูลการจองได้อย่างเป็นธรรมชาติ
+ออกแบบประสบการณ์การจองผ่านบทสนทนา โดยนำ Google Gemini AI มาประยุกต์ใช้เพื่อช่วยให้การระบุความต้องการและรวบรวมข้อมูลการจองเป็นธรรมชาติมากขึ้น
 
-### 04 — สรุปรายละเอียดการจองโดย AI
+## 04  AI Booking Summary
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/609e6871-1f27-4a8b-b07e-9681b0b59348" width="350" alt="หน้าสรุปการจอง"/>
+  <img src="https://github.com/user-attachments/assets/609e6871-1f27-4a8b-b07e-9681b0b59348" width="350" alt="AI Booking Summary"/>
 </p>
 
-รวบรวมข้อมูลสำคัญจากการสนทนาให้อยู่ในรูปแบบที่เป็นระเบียบ ช่วยให้ลูกค้าตรวจสอบบริการ ราคา และวันนัดหมายได้ง่ายขึ้น
+แสดงสรุปข้อมูลการจองที่รวบรวมจากบทสนทนา ช่วยให้ลูกค้าตรวจสอบรายละเอียดบริการ ราคา และวันนัดหมายได้อย่างชัดเจน
 
-### 05 — ระบบจองด้วยตนเอง
+## 05  Manual Booking
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/bf3ad72e-4c6c-4a8b-b07b-6a70c20dbc59" width="280" alt="หน้าจองบริการด้วยตนเอง"/>
+  <img src="https://github.com/user-attachments/assets/bf3ad72e-4c6c-4a8b-b07b-6a70c20dbc59" width="280" alt="Manual Booking Interface"/>
 </p>
 
-รองรับการจองโดยไม่ต้องผ่าน AI ลูกค้าสามารถเลือกบริการ ระยะเวลาการนวด และเวลาที่ต้องการเข้ารับบริการได้ด้วยตนเอง
+รองรับการจองด้วยตนเอง ลูกค้าสามารถเลือกบริการ ระยะเวลาการนวด และวันเวลาที่ต้องการได้โดยตรง
 
-### 06 — หน้าจัดการรายการจอง
+## 06  Booking Management
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/ea1661cf-f858-416c-ace3-1cbef6145961" width="250" alt="หน้ารายการจอง"/>
-  <img src="https://github.com/user-attachments/assets/a87871a1-fd69-431f-a60d-00e5018436c9" width="250" alt="หน้ารายละเอียดการจอง"/>
-  <img src="https://github.com/user-attachments/assets/ea1661cf-f858-416c-ace3-1cbef6145961" width="250" alt="หน้าสถานะการจอง"/>
+  <img src="https://github.com/user-attachments/assets/ea1661cf-f858-416c-ace3-1cbef6145961" width="250" alt="Booking List"/>
+  <img src="https://github.com/user-attachments/assets/a87871a1-fd69-431f-a60d-00e5018436c9" width="250" alt="Booking Details"/>
 </p>
 
-แสดงรายการจองและสถานะการใช้บริการ ช่วยให้ลูกค้าติดตามรายการจองของตนเองได้อย่างเป็นระบบ
+หน้าจัดการรายการจองที่ช่วยให้ลูกค้าติดตามการจองและตรวจสอบสถานะการใช้บริการได้
 
-### 07 — โปรไฟล์และการตั้งค่า
+## 07  Profile & Settings
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/1ae59da8-adba-485f-b50b-d97f116daa1f" width="280" alt="หน้าโปรไฟล์และการตั้งค่า"/>
+  <img src="https://github.com/user-attachments/assets/1ae59da8-adba-485f-b50b-d97f116daa1f" width="280" alt="Profile and Settings"/>
 </p>
 
-รวมข้อมูลส่วนตัวและการตั้งค่าบัญชีไว้ในหน้าเดียว เพื่อให้ผู้ใช้งานจัดการข้อมูลพื้นฐานได้สะดวก
+หน้าจัดการข้อมูลส่วนตัวและการตั้งค่าพื้นฐานภายในแอปพลิเคชัน
 
 ---
 
-## 🛠️ เทคโนโลยีที่ใช้ (Technology Stack)
+## 🛠️ Technology Stack
 
-| เทคโนโลยี | การนำไปใช้งาน |
+| เทคโนโลยี | รายละเอียดการใช้งาน |
 |---|---|
-| Flutter | พัฒนา UI ของแอปพลิเคชัน |
-| Dart | ภาษาหลักในการพัฒนา |
-| AI Conversational UI | ออกแบบหน้าจอและประสบการณ์การจองผ่านบทสนทนา |
-| UI/UX Design | ออกแบบหน้าจอและลำดับการใช้งานของผู้ใช้ |
+| Flutter | Framework สำหรับพัฒนาเว็บแอปพลิเคชัน |
+| Dart | ภาษาหลักที่ใช้ในการพัฒนา |
+| Google Gemini AI | Generative AI สำหรับการสนทนาและช่วยรวบรวมข้อมูลการจอง |
+| AI Chat Interface | ส่วนติดต่อผู้ใช้งานสำหรับระบบสนทนากับ AI |
+| UI/UX Design | ออกแบบหน้าจอและ User Flow |
 
-## 💡 สิ่งที่ได้เรียนรู้และพัฒนาจากโปรเจกต์นี้
+## 🧠 Development Skills
 
-- การพัฒนา Mobile/Web Application ด้วย Flutter และ Dart
-- การออกแบบ UI ให้เหมาะสมกับการใช้งานบนอุปกรณ์ต่าง ๆ
-- การออกแบบ User Flow ตั้งแต่การเลือกบริการจนถึงการจอง
-- การจัดองค์ประกอบหน้าจอให้ข้อมูลเข้าใจง่ายและไม่ซับซ้อน
-- การออกแบบประสบการณ์การใช้งานร่วมกับ AI Chat Interface
-- การออกแบบหน้าจอจัดการข้อมูลและสถานะการจอง
-- การคำนึงถึง User Experience ในทุกขั้นตอนการใช้งาน
+ทักษะที่ได้ประยุกต์ใช้ในการพัฒนาโปรเจกต์นี้
 
-## 📌 ขอบเขตของโปรเจกต์ (Project Scope)
+- **Frontend Development:** พัฒนาส่วนติดต่อผู้ใช้งานด้วย Flutter และ Dart
+- **AI Integration:** ประยุกต์ใช้ Google Gemini AI กับแนวคิดการจองผ่านบทสนทนา
+- **UI/UX Design:** ออกแบบหน้าจอและลำดับการใช้งานให้เหมาะสมกับผู้ใช้
+- **User Flow Design:** วางโครงสร้างการใช้งานตั้งแต่เลือกบริการจนถึงสรุปการจอง
+- **Information Presentation:** ออกแบบการแสดงผลข้อมูลและสถานะการจองให้อ่านง่าย
 
-โปรเจกต์นี้มุ่งเน้นการพัฒนาส่วนติดต่อผู้ใช้งานฝั่งลูกค้า (Customer-side UI) ครอบคลุมหน้าจอหลัก การจองผ่าน AI การจองด้วยตนเอง การจัดการรายการจอง และการตั้งค่าโปรไฟล์
-
-**หมายเหตุ:** ขอบเขตงานปัจจุบันเน้นด้าน UI และประสบการณ์การใช้งานฝั่งลูกค้า ไม่ใช่ระบบจองแบบ End-to-End ที่เชื่อมต่อ Backend และระบบจัดการร้านทั้งหมด
-
----
-
-## 📂 ข้อมูลโปรเจกต์ (Project Information)
+## 📂 Project Information
 
 | รายละเอียด | ข้อมูล |
 |---|---|
 | ชื่อโปรเจกต์ | ZenTouch |
-| ประเภท | Web Application |
+| ประเภทโปรเจกต์ | Web Application |
+| กลุ่มผู้ใช้งาน | ลูกค้า (Customer) |
 | Framework | Flutter |
-| Programming Language | Dart |
+| Language | Dart |
+| AI Technology | Google Gemini |
 | Development Focus | Frontend Development |
 | Design Focus | UI/UX Design |
-| Application Concept | AI-Powered Massage Booking |
+
+## 📍 Project Scope
+
+โปรเจกต์นี้มุ่งเน้นการพัฒนาส่วนติดต่อผู้ใช้งานฝั่งลูกค้า (Customer-side UI) ครอบคลุมหน้าหลัก ระบบจองผ่าน AI ระบบจองด้วยตนเอง หน้าจัดการรายการจอง และหน้าโปรไฟล์
+
+ขอบเขตปัจจุบันเน้นการพัฒนาประสบการณ์การใช้งานและส่วนติดต่อผู้ใช้ ไม่ใช่ระบบจัดการร้านนวดแบบครบวงจรที่เชื่อมต่อ Backend ทุกส่วน
 
 ---
 
 <p align="center">
-  <b>🌿 ZenTouch — Designed for Comfort, Built for Convenience.</b>
+  <b>🌿 ZenTouch</b>
+</p>
+<p align="center">
+  <b>Developed by</b><br/>
+  <strong>นางสาวรัตนากร สุระ</strong><br/>
+  <sub>Student ID: 6752410029</sub>
+  <br/><br/>
+  <i>Crafted with passion, powered by technology.</i>
 </p>
 
 <p align="center">
-  <i>สร้างประสบการณ์การจองบริการที่ง่ายขึ้น ด้วยเทคโนโลยีที่เข้าใจผู้ใช้งาน</i>
+  Designed with Care. Powered by Flutter & Gemini AI.
 </p>
+
