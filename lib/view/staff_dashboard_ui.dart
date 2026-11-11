@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_application_massage/theme/app_theme.dart';
 
 // ---------------------------------------------------------------------------
 // Theme constants
 // ---------------------------------------------------------------------------
 class _AppColors {
-  static const Color primaryGreen = Color(0xFF426B55);
-  static const Color darkGreen = Color(0xFF294C3A);
-  static const Color cream = Color(0xFFF7F6F0);
-  static const Color cardWhite = Color(0xFFFFFFFF);
-  static const Color lightGreen = Color(0xFFE7EFE8);
-  static const Color textDark = Color(0xFF26382D);
-  static const Color textGrey = Color(0xFF858585);
-  static const Color borderGrey = Color(0xFFDDDDD5);
-  static const Color error = Color(0xFFB3412F);
+  static const Color primaryGreen = ZenTouchColors.primary;
+  static const Color darkGreen = ZenTouchColors.primaryDark;
+  static const Color cream = ZenTouchColors.background;
+  static const Color cardWhite = ZenTouchColors.surface;
+  static const Color lightGreen = ZenTouchColors.surfaceSecondary;
+  static const Color textDark = ZenTouchColors.textPrimary;
+  static const Color textGrey = ZenTouchColors.textSecondary;
+  static const Color borderGrey = ZenTouchColors.border;
+  static const Color error = ZenTouchColors.error;
 }
 
 TextStyle _prompt(
@@ -52,8 +53,9 @@ class _LoginUiState extends State<LoginUi> {
   bool _rememberMe = false;
   bool _isLoading = false;
 
-  static final RegExp _emailRegex =
-      RegExp(r'^[\w.+\-]+@[A-Za-z0-9\-]+(\.[A-Za-z0-9\-]+)+$');
+  static final RegExp _emailRegex = RegExp(
+    r'^[\w.+\-]+@[A-Za-z0-9\-]+(\.[A-Za-z0-9\-]+)+$',
+  );
 
   @override
   void dispose() {
@@ -72,8 +74,7 @@ class _LoginUiState extends State<LoginUi> {
       ..showSnackBar(
         SnackBar(
           content: Text(message, style: _prompt(14, color: Colors.white)),
-          backgroundColor:
-              isError ? _AppColors.error : _AppColors.darkGreen,
+          backgroundColor: isError ? _AppColors.error : _AppColors.darkGreen,
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
@@ -204,8 +205,7 @@ class _LoginUiState extends State<LoginUi> {
           child: Center(
             child: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
-              keyboardDismissBehavior:
-                  ScrollViewKeyboardDismissBehavior.onDrag,
+              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
               child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 440),
@@ -213,7 +213,7 @@ class _LoginUiState extends State<LoginUi> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    const _BrandLogo(),
+                    const _BrandLogo(assetPath: null),
                     const SizedBox(height: 32),
                     _buildWelcomeText(),
                     const SizedBox(height: 24),
@@ -339,7 +339,7 @@ class _LoginUiState extends State<LoginUi> {
       hintText: hint,
       labelStyle: _prompt(14, color: _AppColors.textGrey),
       floatingLabelStyle: _prompt(14, color: _AppColors.primaryGreen),
-      hintStyle: _prompt(14, color: const Color(0xFFB5B5B5)),
+      hintStyle: _prompt(14, color: ZenTouchColors.textSecondary),
       errorStyle: _prompt(12, color: _AppColors.error),
       prefixIcon: Icon(icon, color: _AppColors.primaryGreen),
       suffixIcon: suffix,
@@ -361,9 +361,10 @@ class _LoginUiState extends State<LoginUi> {
         Expanded(
           child: InkWell(
             borderRadius: BorderRadius.circular(8),
-            onTap: _isLoading
-                ? null
-                : () => setState(() => _rememberMe = !_rememberMe),
+            onTap:
+                _isLoading
+                    ? null
+                    : () => setState(() => _rememberMe = !_rememberMe),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -380,10 +381,11 @@ class _LoginUiState extends State<LoginUi> {
                       color: _AppColors.textGrey,
                       width: 1.2,
                     ),
-                    onChanged: _isLoading
-                        ? null
-                        : (value) =>
-                            setState(() => _rememberMe = value ?? false),
+                    onChanged:
+                        _isLoading
+                            ? null
+                            : (value) =>
+                                setState(() => _rememberMe = value ?? false),
                   ),
                 ),
                 Flexible(
@@ -419,29 +421,32 @@ class _LoginUiState extends State<LoginUi> {
         onPressed: _isLoading ? null : _handleLogin,
         style: ElevatedButton.styleFrom(
           backgroundColor: _AppColors.primaryGreen,
-          disabledBackgroundColor: _AppColors.primaryGreen.withOpacity(0.7),
+          disabledBackgroundColor: _AppColors.primaryGreen.withValues(
+            alpha: 0.7,
+          ),
           elevation: 0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(14),
           ),
         ),
-        child: _isLoading
-            ? const SizedBox(
-                width: 24,
-                height: 24,
-                child: CircularProgressIndicator(
-                  strokeWidth: 2.6,
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+        child:
+            _isLoading
+                ? const SizedBox(
+                  width: 24,
+                  height: 24,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2.6,
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                  ),
+                )
+                : Text(
+                  'เข้าสู่ระบบ',
+                  style: _prompt(
+                    16,
+                    weight: FontWeight.w600,
+                    color: Colors.white,
+                  ),
                 ),
-              )
-            : Text(
-                'เข้าสู่ระบบ',
-                style: _prompt(
-                  16,
-                  weight: FontWeight.w600,
-                  color: Colors.white,
-                ),
-              ),
       ),
     );
   }
@@ -543,38 +548,39 @@ class _BrandLogo extends StatelessWidget {
             shape: BoxShape.circle,
             boxShadow: [
               BoxShadow(
-                color: _AppColors.darkGreen.withOpacity(0.12),
+                color: _AppColors.darkGreen.withValues(alpha: 0.12),
                 blurRadius: 18,
                 offset: const Offset(0, 8),
               ),
             ],
           ),
-          child: assetPath != null
-              ? Padding(
-                  padding: const EdgeInsets.all(18),
-                  child: Image.asset(assetPath!, fit: BoxFit.contain),
-                )
-              : Stack(
-                  alignment: Alignment.center,
-                  children: const [
-                    Positioned(
-                      top: 16,
-                      child: Icon(
-                        Icons.self_improvement_rounded,
-                        size: 34,
-                        color: _AppColors.primaryGreen,
+          child:
+              assetPath != null
+                  ? Padding(
+                    padding: const EdgeInsets.all(18),
+                    child: Image.asset(assetPath!, fit: BoxFit.contain),
+                  )
+                  : Stack(
+                    alignment: Alignment.center,
+                    children: const [
+                      Positioned(
+                        top: 16,
+                        child: Icon(
+                          Icons.self_improvement_rounded,
+                          size: 34,
+                          color: _AppColors.primaryGreen,
+                        ),
                       ),
-                    ),
-                    Positioned(
-                      bottom: 14,
-                      child: Icon(
-                        Icons.spa_rounded,
-                        size: 40,
-                        color: _AppColors.darkGreen,
+                      Positioned(
+                        bottom: 14,
+                        child: Icon(
+                          Icons.spa_rounded,
+                          size: 40,
+                          color: _AppColors.darkGreen,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
+                    ],
+                  ),
         ),
         const SizedBox(height: 16),
         Text(
@@ -688,7 +694,7 @@ class _ForgotPasswordSheetState extends State<_ForgotPasswordSheet> {
                     width: 44,
                     height: 4,
                     decoration: BoxDecoration(
-                      color: const Color(0xFFD9DED9),
+                      color: ZenTouchColors.border,
                       borderRadius: BorderRadius.circular(4),
                     ),
                   ),
@@ -716,7 +722,7 @@ class _ForgotPasswordSheetState extends State<_ForgotPasswordSheet> {
                     labelText: 'อีเมล',
                     hintText: 'example@email.com',
                     labelStyle: _prompt(14, color: _AppColors.textGrey),
-                    hintStyle: _prompt(14, color: const Color(0xFFB5B5B5)),
+                    hintStyle: _prompt(14, color: ZenTouchColors.textSecondary),
                     errorStyle: _prompt(12, color: _AppColors.error),
                     prefixIcon: const Icon(
                       Icons.email_outlined,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_massage/theme/app_theme.dart';
 
 // ====================== Model ======================
 
@@ -28,17 +29,17 @@ class ServiceModel {
   });
 
   ServiceModel copyWith({bool? isActive}) => ServiceModel(
-        id: id,
-        name: name,
-        category: category,
-        description: description,
-        price: price,
-        durationMinutes: durationMinutes,
-        bufferMinutes: bufferMinutes,
-        imageUrl: imageUrl,
-        isActive: isActive ?? this.isActive,
-        therapists: therapists,
-      );
+    id: id,
+    name: name,
+    category: category,
+    description: description,
+    price: price,
+    durationMinutes: durationMinutes,
+    bufferMinutes: bufferMinutes,
+    imageUrl: imageUrl,
+    isActive: isActive ?? this.isActive,
+    therapists: therapists,
+  );
 }
 
 enum _StatusFilter { all, active, inactive }
@@ -47,10 +48,7 @@ enum _SortBy { name, priceAsc, priceDesc }
 
 String _money(double v) {
   final s = v.toStringAsFixed(0);
-  return s.replaceAllMapped(
-    RegExp(r'\B(?=(\d{3})+(?!\d))'),
-    (m) => ',',
-  );
+  return s.replaceAllMapped(RegExp(r'\B(?=(\d{3})+(?!\d))'), (m) => ',');
 }
 
 // ====================== หน้าหลัก ======================
@@ -123,18 +121,20 @@ class _ManageServiceUiState extends State<ManageServiceUi> {
   // ---------- ข้อมูลที่กรองแล้ว ----------
 
   List<ServiceModel> get _filtered {
-    final list = _services.where((s) {
-      final matchSearch =
-          s.name.toLowerCase().contains(_search.trim().toLowerCase());
-      final matchCat =
-          _categoryFilter == 'ทั้งหมด' || s.category == _categoryFilter;
-      final matchStatus = switch (_statusFilter) {
-        _StatusFilter.all => true,
-        _StatusFilter.active => s.isActive,
-        _StatusFilter.inactive => !s.isActive,
-      };
-      return matchSearch && matchCat && matchStatus;
-    }).toList();
+    final list =
+        _services.where((s) {
+          final matchSearch = s.name.toLowerCase().contains(
+            _search.trim().toLowerCase(),
+          );
+          final matchCat =
+              _categoryFilter == 'ทั้งหมด' || s.category == _categoryFilter;
+          final matchStatus = switch (_statusFilter) {
+            _StatusFilter.all => true,
+            _StatusFilter.active => s.isActive,
+            _StatusFilter.inactive => !s.isActive,
+          };
+          return matchSearch && matchCat && matchStatus;
+        }).toList();
 
     switch (_sortBy) {
       case _SortBy.name:
@@ -166,11 +166,12 @@ class _ManageServiceUiState extends State<ManageServiceUi> {
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
-      builder: (_) => _ServiceFormSheet(
-        editing: editing,
-        categories: _categories,
-        allTherapists: _allTherapists,
-      ),
+      builder:
+          (_) => _ServiceFormSheet(
+            editing: editing,
+            categories: _categories,
+            allTherapists: _allTherapists,
+          ),
     );
     if (result == null) return;
 
@@ -187,7 +188,9 @@ class _ManageServiceUiState extends State<ManageServiceUi> {
     if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(editing == null ? 'เพิ่มบริการแล้ว' : 'บันทึกการแก้ไขแล้ว'),
+        content: Text(
+          editing == null ? 'เพิ่มบริการแล้ว' : 'บันทึกการแก้ไขแล้ว',
+        ),
       ),
     );
   }
@@ -195,31 +198,40 @@ class _ManageServiceUiState extends State<ManageServiceUi> {
   Future<void> _confirmDelete(ServiceModel s) async {
     final ok = await showDialog<bool>(
       context: context,
-      builder: (ctx) => AlertDialog(
-        icon: const Icon(Icons.delete_forever, color: Colors.red, size: 48),
-        title: const Text('ลบบริการ'),
-        content: Text('ต้องการลบ "${s.name}" ใช่หรือไม่?\nลบแล้วกู้คืนไม่ได้'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('ยกเลิก'),
+      builder:
+          (ctx) => AlertDialog(
+            icon: const Icon(
+              Icons.delete_forever,
+              color: ZenTouchColors.error,
+              size: 48,
+            ),
+            title: const Text('ลบบริการ'),
+            content: Text(
+              'ต้องการลบ "${s.name}" ใช่หรือไม่?\nลบแล้วกู้คืนไม่ได้',
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(ctx, false),
+                child: const Text('ยกเลิก'),
+              ),
+              FilledButton(
+                style: FilledButton.styleFrom(
+                  backgroundColor: const Color.fromARGB(255, 197, 53, 74),
+                ),
+                onPressed: () => Navigator.pop(ctx, true),
+                child: const Text('ลบ'),
+              ),
+            ],
           ),
-          FilledButton(
-            style: FilledButton.styleFrom(backgroundColor: Colors.red),
-            onPressed: () => Navigator.pop(ctx, true),
-            child: const Text('ลบ'),
-          ),
-        ],
-      ),
     );
     if (ok != true) return;
 
     // TODO: delete ใน Supabase
     setState(() => _services.removeWhere((e) => e.id == s.id));
     if (!mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('ลบ "${s.name}" แล้ว')),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text('ลบ "${s.name}" แล้ว')));
   }
 
   void _showDetail(ServiceModel s) {
@@ -234,33 +246,41 @@ class _ManageServiceUiState extends State<ManageServiceUi> {
       builder: (ctx) {
         final primary = Theme.of(ctx).colorScheme.primary;
         Widget row(IconData icon, String label, String value) => Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Icon(icon, size: 20, color: primary),
-                  const SizedBox(width: 12),
-                  SizedBox(
-                    width: 100,
-                    child: Text(label,
-                        style: TextStyle(color: Colors.grey.shade600)),
-                  ),
-                  Expanded(
-                    child: Text(value,
-                        style: const TextStyle(fontWeight: FontWeight.w600)),
-                  ),
-                ],
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Icon(icon, size: 20, color: primary),
+              const SizedBox(width: 12),
+              SizedBox(
+                width: 100,
+                child: Text(
+                  label,
+                  style: const TextStyle(color: ZenTouchColors.textSecondary),
+                ),
               ),
-            );
+              Expanded(
+                child: Text(
+                  value,
+                  style: const TextStyle(fontWeight: FontWeight.w600),
+                ),
+              ),
+            ],
+          ),
+        );
 
         return SingleChildScrollView(
           padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(s.name,
-                  style: const TextStyle(
-                      fontSize: 22, fontWeight: FontWeight.w800)),
+              Text(
+                s.name,
+                style: const TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
               const SizedBox(height: 4),
               _StatusChip(active: s.isActive),
               const SizedBox(height: 12),
@@ -268,10 +288,18 @@ class _ManageServiceUiState extends State<ManageServiceUi> {
               row(Icons.payments, 'ราคา', '${_money(s.price)} บาท'),
               row(Icons.timer, 'ระยะเวลา', '${s.durationMinutes} นาที'),
               row(Icons.free_breakfast, 'เวลาพัก', '${s.bufferMinutes} นาที'),
-              row(Icons.notes, 'รายละเอียด',
-                  s.description.isEmpty ? '-' : s.description),
-              row(Icons.people, 'พนักงาน',
-                  s.therapists.isEmpty ? 'ยังไม่ได้กำหนด' : s.therapists.join(', ')),
+              row(
+                Icons.notes,
+                'รายละเอียด',
+                s.description.isEmpty ? '-' : s.description,
+              ),
+              row(
+                Icons.people,
+                'พนักงาน',
+                s.therapists.isEmpty
+                    ? 'ยังไม่ได้กำหนด'
+                    : s.therapists.join(', '),
+              ),
             ],
           ),
         );
@@ -286,10 +314,7 @@ class _ManageServiceUiState extends State<ManageServiceUi> {
     final items = _filtered;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('จัดการบริการ'),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: const Text('จัดการบริการ'), centerTitle: true),
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: ListView(
@@ -322,11 +347,15 @@ class _ManageServiceUiState extends State<ManageServiceUi> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('จัดการบริการ',
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.w800)),
+              Text(
+                'จัดการบริการ',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.w800),
+              ),
               SizedBox(height: 4),
-              Text('จัดการรายการบริการ ราคา และระยะเวลาของร้าน',
-                  style: TextStyle(color: Colors.grey)),
+              Text(
+                'จัดการรายการบริการ ราคา และระยะเวลาของร้าน',
+                style: TextStyle(color: ZenTouchColors.textSecondary),
+              ),
             ],
           ),
         ),
@@ -356,28 +385,28 @@ class _ManageServiceUiState extends State<ManageServiceUi> {
       children: [
         _StatCard(
           icon: Icons.spa,
-          color: Colors.indigo,
+          color: ZenTouchColors.primary,
           label: 'บริการทั้งหมด',
           value: '$total',
           unit: 'รายการบริการ',
         ),
         _StatCard(
           icon: Icons.check_circle,
-          color: Colors.green,
+          color: ZenTouchColors.success,
           label: 'เปิดให้บริการ',
           value: '$active',
           unit: 'รายการ',
         ),
         _StatCard(
           icon: Icons.pause_circle,
-          color: Colors.red,
+          color: ZenTouchColors.error,
           label: 'ปิดให้บริการ',
           value: '${total - active}',
           unit: 'รายการ',
         ),
         _StatCard(
           icon: Icons.category,
-          color: Colors.orange,
+          color: ZenTouchColors.warning,
           label: 'หมวดหมู่',
           value: '$categoryCount',
           unit: 'หมวดหมู่บริการ',
@@ -397,15 +426,16 @@ class _ManageServiceUiState extends State<ManageServiceUi> {
           decoration: InputDecoration(
             hintText: 'ค้นหาชื่อบริการ',
             prefixIcon: const Icon(Icons.search),
-            suffixIcon: _search.isEmpty
-                ? null
-                : IconButton(
-                    icon: const Icon(Icons.close),
-                    onPressed: () {
-                      _searchCtrl.clear();
-                      setState(() => _search = '');
-                    },
-                  ),
+            suffixIcon:
+                _search.isEmpty
+                    ? null
+                    : IconButton(
+                      icon: const Icon(Icons.close),
+                      onPressed: () {
+                        _searchCtrl.clear();
+                        setState(() => _search = '');
+                      },
+                    ),
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(14)),
             contentPadding: const EdgeInsets.symmetric(vertical: 0),
           ),
@@ -415,28 +445,35 @@ class _ManageServiceUiState extends State<ManageServiceUi> {
           children: [
             Expanded(
               child: DropdownButtonFormField<String>(
-                value: _categoryFilter,
+                initialValue: _categoryFilter,
                 isExpanded: true,
                 decoration: _filterDecoration('หมวดหมู่'),
-                items: ['ทั้งหมด', ..._categories]
-                    .map((c) => DropdownMenuItem(value: c, child: Text(c)))
-                    .toList(),
+                items:
+                    ['ทั้งหมด', ..._categories]
+                        .map((c) => DropdownMenuItem(value: c, child: Text(c)))
+                        .toList(),
                 onChanged: (v) => setState(() => _categoryFilter = v!),
               ),
             ),
             const SizedBox(width: 12),
             Expanded(
               child: DropdownButtonFormField<_StatusFilter>(
-                value: _statusFilter,
+                initialValue: _statusFilter,
                 isExpanded: true,
                 decoration: _filterDecoration('สถานะ'),
                 items: const [
                   DropdownMenuItem(
-                      value: _StatusFilter.all, child: Text('ทั้งหมด')),
+                    value: _StatusFilter.all,
+                    child: Text('ทั้งหมด'),
+                  ),
                   DropdownMenuItem(
-                      value: _StatusFilter.active, child: Text('เปิดบริการ')),
+                    value: _StatusFilter.active,
+                    child: Text('เปิดบริการ'),
+                  ),
                   DropdownMenuItem(
-                      value: _StatusFilter.inactive, child: Text('ปิดบริการ')),
+                    value: _StatusFilter.inactive,
+                    child: Text('ปิดบริการ'),
+                  ),
                 ],
                 onChanged: (v) => setState(() => _statusFilter = v!),
               ),
@@ -471,10 +508,10 @@ class _ManageServiceUiState extends State<ManageServiceUi> {
   }
 
   InputDecoration _filterDecoration(String label) => InputDecoration(
-        labelText: label,
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(14)),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-      );
+    labelText: label,
+    border: OutlineInputBorder(borderRadius: BorderRadius.circular(14)),
+    contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+  );
 
   // ---------- ส่วนที่ 4: การ์ดบริการ ----------
   Widget _buildServiceCard(ServiceModel s) {
@@ -483,7 +520,10 @@ class _ManageServiceUiState extends State<ManageServiceUi> {
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
       elevation: 1,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(18),
+        side: const BorderSide(color: ZenTouchColors.border),
+      ),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(14, 14, 8, 6),
         child: Column(
@@ -497,14 +537,19 @@ class _ManageServiceUiState extends State<ManageServiceUi> {
                     width: 76,
                     height: 76,
                     color: scheme.primaryContainer,
-                    child: s.imageUrl != null
-                        ? Image.network(
-                            s.imageUrl!,
-                            fit: BoxFit.cover,
-                            errorBuilder: (_, __, ___) => Icon(Icons.spa,
-                                color: scheme.primary, size: 32),
-                          )
-                        : Icon(Icons.spa, color: scheme.primary, size: 32),
+                    child:
+                        s.imageUrl != null
+                            ? Image.network(
+                              s.imageUrl!,
+                              fit: BoxFit.cover,
+                              errorBuilder:
+                                  (_, __, ___) => Icon(
+                                    Icons.spa,
+                                    color: scheme.primary,
+                                    size: 32,
+                                  ),
+                            )
+                            : Icon(Icons.spa, color: scheme.primary, size: 32),
                   ),
                 ),
                 const SizedBox(width: 14),
@@ -512,23 +557,36 @@ class _ManageServiceUiState extends State<ManageServiceUi> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(s.name,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                              fontSize: 17, fontWeight: FontWeight.w700)),
+                      Text(
+                        s.name,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
                       const SizedBox(height: 2),
-                      Text('หมวดหมู่: ${s.category}',
-                          style: TextStyle(
-                              color: Colors.grey.shade600, fontSize: 13)),
+                      Text(
+                        'หมวดหมู่: ${s.category}',
+                        style: TextStyle(
+                          color: ZenTouchColors.textSecondary,
+                          fontSize: 13,
+                        ),
+                      ),
                       const SizedBox(height: 4),
-                      Text('${_money(s.price)} บาท',
-                          style: TextStyle(
-                              color: scheme.primary,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w800)),
-                      Text('ระยะเวลา ${s.durationMinutes} นาที',
-                          style: const TextStyle(fontSize: 13)),
+                      Text(
+                        '${_money(s.price)} บาท',
+                        style: TextStyle(
+                          color: scheme.primary,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                      Text(
+                        'ระยะเวลา ${s.durationMinutes} นาที',
+                        style: const TextStyle(fontSize: 13),
+                      ),
                     ],
                   ),
                 ),
@@ -559,7 +617,9 @@ class _ManageServiceUiState extends State<ManageServiceUi> {
                   label: const Text('แก้ไข'),
                 ),
                 TextButton.icon(
-                  style: TextButton.styleFrom(foregroundColor: Colors.red),
+                  style: TextButton.styleFrom(
+                    foregroundColor: ZenTouchColors.error,
+                  ),
                   onPressed: () => _confirmDelete(s),
                   icon: const Icon(Icons.delete_outline, size: 18),
                   label: const Text('ลบ'),
@@ -573,23 +633,25 @@ class _ManageServiceUiState extends State<ManageServiceUi> {
   }
 
   Widget _buildEmpty() => Padding(
-        padding: const EdgeInsets.symmetric(vertical: 40),
-        child: Column(
-          children: [
-            Icon(Icons.search_off, size: 56, color: Colors.grey.shade400),
-            const SizedBox(height: 8),
-            Text('ไม่พบบริการที่ค้นหา',
-                style: TextStyle(color: Colors.grey.shade600)),
-          ],
+    padding: const EdgeInsets.symmetric(vertical: 40),
+    child: Column(
+      children: [
+        Icon(Icons.search_off, size: 56, color: ZenTouchColors.primaryLight),
+        const SizedBox(height: 8),
+        Text(
+          'ไม่พบบริการที่ค้นหา',
+          style: const TextStyle(color: ZenTouchColors.textSecondary),
         ),
-      );
+      ],
+    ),
+  );
 }
 
 // ====================== Widgets ย่อย ======================
 
 class _StatCard extends StatelessWidget {
   final IconData icon;
-  final MaterialColor color;
+  final Color color;
   final String label;
   final String value;
   final String unit;
@@ -607,7 +669,7 @@ class _StatCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: color.shade50,
+        color: color.withValues(alpha: 0.14),
         borderRadius: BorderRadius.circular(18),
       ),
       child: Column(
@@ -616,29 +678,41 @@ class _StatCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(icon, color: color.shade700, size: 20),
+              Icon(icon, color: ZenTouchColors.primaryDark, size: 20),
               const SizedBox(width: 6),
               Expanded(
-                child: Text(label,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        color: color.shade900, fontWeight: FontWeight.w600)),
+                child: Text(
+                  label,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: ZenTouchColors.textPrimary,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
               ),
             ],
           ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text(value,
-                  style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.w800,
-                      color: color.shade800)),
+              Text(
+                value,
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.w800,
+                  color: ZenTouchColors.primaryDark,
+                ),
+              ),
               const SizedBox(width: 6),
               Padding(
                 padding: const EdgeInsets.only(bottom: 5),
-                child: Text(unit,
-                    style: TextStyle(fontSize: 12, color: color.shade700)),
+                child: Text(
+                  unit,
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: ZenTouchColors.textSecondary,
+                  ),
+                ),
               ),
             ],
           ),
@@ -654,17 +728,21 @@ class _StatusChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = active ? Colors.green : Colors.red;
+    final color = active ? ZenTouchColors.success : ZenTouchColors.error;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
       decoration: BoxDecoration(
-        color: color.shade50,
+        color: color.withValues(alpha: 0.14),
         borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: ZenTouchColors.border),
       ),
       child: Text(
         active ? 'เปิดบริการ' : 'ปิดบริการ',
         style: TextStyle(
-            color: color.shade700, fontSize: 12, fontWeight: FontWeight.w600),
+          color: ZenTouchColors.textPrimary,
+          fontSize: 12,
+          fontWeight: FontWeight.w600,
+        ),
       ),
     );
   }
@@ -710,7 +788,8 @@ class _ServiceFormSheetState extends State<_ServiceFormSheet> {
     final e = widget.editing;
     _nameCtrl = TextEditingController(text: e?.name ?? '');
     _priceCtrl = TextEditingController(
-        text: e == null ? '' : e.price.toStringAsFixed(0));
+      text: e == null ? '' : e.price.toStringAsFixed(0),
+    );
     _descCtrl = TextEditingController(text: e?.description ?? '');
     _category = e?.category;
     _duration = e?.durationMinutes ?? 60;
@@ -728,16 +807,17 @@ class _ServiceFormSheetState extends State<_ServiceFormSheet> {
   }
 
   InputDecoration _dec(String label, {String? hint}) => InputDecoration(
-        labelText: label,
-        hintText: hint,
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(14)),
-      );
+    labelText: label,
+    hintText: hint,
+    border: OutlineInputBorder(borderRadius: BorderRadius.circular(14)),
+  );
 
   void _save() {
     if (!_formKey.currentState!.validate()) return;
 
     final model = ServiceModel(
-      id: widget.editing?.id ??
+      id:
+          widget.editing?.id ??
           DateTime.now().millisecondsSinceEpoch.toString(),
       name: _nameCtrl.text.trim(),
       category: _category!,
@@ -747,9 +827,8 @@ class _ServiceFormSheetState extends State<_ServiceFormSheet> {
       bufferMinutes: _buffer,
       imageUrl: widget.editing?.imageUrl,
       isActive: _isActive,
-      therapists: widget.allTherapists
-          .where((t) => _therapists.contains(t))
-          .toList(),
+      therapists:
+          widget.allTherapists.where((t) => _therapists.contains(t)).toList(),
     );
     Navigator.pop(context, model);
   }
@@ -759,7 +838,9 @@ class _ServiceFormSheetState extends State<_ServiceFormSheet> {
     final scheme = Theme.of(context).colorScheme;
 
     return Padding(
-      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      padding: EdgeInsets.only(
+        bottom: MediaQuery.of(context).viewInsets.bottom,
+      ),
       child: SingleChildScrollView(
         padding: const EdgeInsets.fromLTRB(20, 0, 20, 24),
         child: Form(
@@ -767,9 +848,13 @@ class _ServiceFormSheetState extends State<_ServiceFormSheet> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(_isEdit ? 'แก้ไขบริการ' : 'เพิ่มบริการใหม่',
-                  style: const TextStyle(
-                      fontSize: 20, fontWeight: FontWeight.w800)),
+              Text(
+                _isEdit ? 'แก้ไขบริการ' : 'เพิ่มบริการใหม่',
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
               const SizedBox(height: 16),
 
               // รูปภาพ
@@ -792,14 +877,23 @@ class _ServiceFormSheetState extends State<_ServiceFormSheet> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.add_photo_alternate_outlined,
-                          size: 34, color: scheme.primary),
+                      Icon(
+                        Icons.add_photo_alternate_outlined,
+                        size: 34,
+                        color: scheme.primary,
+                      ),
                       const SizedBox(height: 4),
-                      const Text('เพิ่มรูปภาพบริการ',
-                          style: TextStyle(fontWeight: FontWeight.w600)),
-                      Text('รองรับ JPG, PNG',
-                          style: TextStyle(
-                              fontSize: 12, color: Colors.grey.shade600)),
+                      const Text(
+                        'เพิ่มรูปภาพบริการ',
+                        style: TextStyle(fontWeight: FontWeight.w600),
+                      ),
+                      Text(
+                        'รองรับ JPG, PNG',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: ZenTouchColors.textSecondary,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -810,17 +904,21 @@ class _ServiceFormSheetState extends State<_ServiceFormSheet> {
                 controller: _nameCtrl,
                 textInputAction: TextInputAction.next,
                 decoration: _dec('ชื่อบริการ', hint: 'เช่น นวดแผนไทย'),
-                validator: (v) =>
-                    (v == null || v.trim().isEmpty) ? 'กรุณากรอกชื่อบริการ' : null,
+                validator:
+                    (v) =>
+                        (v == null || v.trim().isEmpty)
+                            ? 'กรุณากรอกชื่อบริการ'
+                            : null,
               ),
               const SizedBox(height: 12),
 
               DropdownButtonFormField<String>(
-                value: _category,
+                initialValue: _category,
                 decoration: _dec('หมวดหมู่'),
-                items: widget.categories
-                    .map((c) => DropdownMenuItem(value: c, child: Text(c)))
-                    .toList(),
+                items:
+                    widget.categories
+                        .map((c) => DropdownMenuItem(value: c, child: Text(c)))
+                        .toList(),
                 onChanged: (v) => setState(() => _category = v),
                 validator: (v) => v == null ? 'กรุณาเลือกหมวดหมู่' : null,
               ),
@@ -843,26 +941,36 @@ class _ServiceFormSheetState extends State<_ServiceFormSheet> {
                 children: [
                   Expanded(
                     child: DropdownButtonFormField<int>(
-                      value: _duration,
+                      initialValue: _duration,
                       isExpanded: true,
                       decoration: _dec('ระยะเวลา'),
-                      items: _durations
-                          .map((d) =>
-                              DropdownMenuItem(value: d, child: Text('$d นาที')))
-                          .toList(),
+                      items:
+                          _durations
+                              .map(
+                                (d) => DropdownMenuItem(
+                                  value: d,
+                                  child: Text('$d นาที'),
+                                ),
+                              )
+                              .toList(),
                       onChanged: (v) => setState(() => _duration = v!),
                     ),
                   ),
                   const SizedBox(width: 12),
                   Expanded(
                     child: DropdownButtonFormField<int>(
-                      value: _buffer,
+                      initialValue: _buffer,
                       isExpanded: true,
                       decoration: _dec('เวลาพัก'),
-                      items: _buffers
-                          .map((d) =>
-                              DropdownMenuItem(value: d, child: Text('$d นาที')))
-                          .toList(),
+                      items:
+                          _buffers
+                              .map(
+                                (d) => DropdownMenuItem(
+                                  value: d,
+                                  child: Text('$d นาที'),
+                                ),
+                              )
+                              .toList(),
                       onChanged: (v) => setState(() => _buffer = v!),
                     ),
                   ),
@@ -873,31 +981,42 @@ class _ServiceFormSheetState extends State<_ServiceFormSheet> {
               TextFormField(
                 controller: _descCtrl,
                 maxLines: 3,
-                decoration:
-                    _dec('รายละเอียดบริการ', hint: 'อธิบายรายละเอียดบริการ...'),
+                decoration: _dec(
+                  'รายละเอียดบริการ',
+                  hint: 'อธิบายรายละเอียดบริการ...',
+                ),
               ),
               const SizedBox(height: 16),
 
               // ส่วนที่ 6: กำหนดพนักงาน
-              const Text('พนักงานที่ให้บริการ',
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700)),
+              const Text(
+                'พนักงานที่ให้บริการ',
+                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
+              ),
               const SizedBox(height: 4),
-              Text('ระบบจองและ AI จะแนะนำเฉพาะพนักงานที่เลือกไว้',
-                  style: TextStyle(fontSize: 12, color: Colors.grey.shade600)),
+              Text(
+                'ระบบจองและ AI จะแนะนำเฉพาะพนักงานที่เลือกไว้',
+                style: const TextStyle(
+                  fontSize: 12,
+                  color: ZenTouchColors.textSecondary,
+                ),
+              ),
               const SizedBox(height: 8),
               Wrap(
                 spacing: 8,
                 runSpacing: 4,
-                children: widget.allTherapists.map((t) {
-                  final selected = _therapists.contains(t);
-                  return FilterChip(
-                    label: Text(t),
-                    selected: selected,
-                    onSelected: (v) => setState(() {
-                      v ? _therapists.add(t) : _therapists.remove(t);
-                    }),
-                  );
-                }).toList(),
+                children:
+                    widget.allTherapists.map((t) {
+                      final selected = _therapists.contains(t);
+                      return FilterChip(
+                        label: Text(t),
+                        selected: selected,
+                        onSelected:
+                            (v) => setState(() {
+                              v ? _therapists.add(t) : _therapists.remove(t);
+                            }),
+                      );
+                    }).toList(),
               ),
               const SizedBox(height: 8),
 
@@ -915,13 +1034,16 @@ class _ServiceFormSheetState extends State<_ServiceFormSheet> {
                 child: FilledButton(
                   style: FilledButton.styleFrom(
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(14)),
+                      borderRadius: BorderRadius.circular(14),
+                    ),
                   ),
                   onPressed: _save,
                   child: Text(
                     _isEdit ? 'บันทึกการแก้ไข' : 'บันทึกบริการ',
                     style: const TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.w600),
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ),

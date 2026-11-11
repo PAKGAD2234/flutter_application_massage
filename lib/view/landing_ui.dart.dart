@@ -1,11 +1,11 @@
-
 import 'package:flutter/material.dart';
+import 'package:flutter_application_massage/theme/app_theme.dart';
 
 class LandingUi extends StatelessWidget {
   const LandingUi({super.key});
 
-  static const Color primaryGreen = Color(0xFF426B55);
-  static const Color backgroundColor = Color(0xFFF7F6F0);
+  static const Color primaryGreen = ZenTouchColors.primary;
+  static const Color backgroundColor = ZenTouchColors.background;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,7 @@ class LandingUi extends StatelessWidget {
             Text(
               'SPA & WELLNESS',
               style: TextStyle(
-                color: Colors.grey,
+                color: ZenTouchColors.textSecondary,
                 fontSize: 10,
                 letterSpacing: 2,
               ),
@@ -57,14 +57,13 @@ class LandingUi extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
             // Welcome Section
             const Text(
               'สวัสดี 👋',
               style: TextStyle(
                 fontSize: 25,
                 fontWeight: FontWeight.bold,
-                color: Color(0xFF294C3A),
+                color: ZenTouchColors.primaryDark,
               ),
             ),
 
@@ -74,7 +73,7 @@ class LandingUi extends StatelessWidget {
               'วันนี้คุณอยากผ่อนคลายแบบไหน?',
               style: TextStyle(
                 fontSize: 15,
-                color: Colors.black54,
+                color: ZenTouchColors.textSecondary,
               ),
             ),
 
@@ -87,11 +86,17 @@ class LandingUi extends StatelessWidget {
               decoration: BoxDecoration(
                 color: primaryGreen,
                 borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    color: ZenTouchColors.primaryDark.withValues(alpha: 0.12),
+                    blurRadius: 18,
+                    offset: const Offset(0, 8),
+                  ),
+                ],
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-
                   Row(
                     children: [
                       Container(
@@ -145,16 +150,12 @@ class LandingUi extends StatelessWidget {
                       icon: const Icon(Icons.chat_bubble_outline),
                       label: const Text(
                         'เริ่มจองผ่าน AI',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.white,
                         foregroundColor: primaryGreen,
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 14,
-                        ),
+                        padding: const EdgeInsets.symmetric(vertical: 14),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
@@ -176,7 +177,7 @@ class LandingUi extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xFF294C3A),
+                    color: ZenTouchColors.primaryDark,
                   ),
                 ),
 
@@ -184,9 +185,7 @@ class LandingUi extends StatelessWidget {
                   onPressed: () {},
                   child: const Text(
                     'ดูทั้งหมด',
-                    style: TextStyle(
-                      color: primaryGreen,
-                    ),
+                    style: TextStyle(color: primaryGreen),
                   ),
                 ),
               ],
@@ -228,9 +227,6 @@ class LandingUi extends StatelessWidget {
               },
             ),
 
-            
-           
-
             const SizedBox(height: 20),
           ],
         ),
@@ -241,8 +237,8 @@ class LandingUi extends StatelessWidget {
         currentIndex: 0,
         type: BottomNavigationBarType.fixed,
         selectedItemColor: primaryGreen,
-        unselectedItemColor: Colors.grey,
-        backgroundColor: Colors.white,
+        unselectedItemColor: ZenTouchColors.textSecondary,
+        backgroundColor: ZenTouchColors.surface,
         elevation: 8,
         onTap: (index) {
           switch (index) {
@@ -301,11 +297,12 @@ class ServiceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Colors.white,
+      color: ZenTouchColors.surface,
       elevation: 1,
       margin: const EdgeInsets.only(bottom: 12),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
+        side: const BorderSide(color: ZenTouchColors.border),
       ),
       child: InkWell(
         onTap: onTap,
@@ -314,20 +311,15 @@ class ServiceCard extends StatelessWidget {
           padding: const EdgeInsets.all(14),
           child: Row(
             children: [
-
               // Service Icon
               Container(
                 width: 55,
                 height: 55,
                 decoration: BoxDecoration(
-                  color: const Color(0xFFE7EFE8),
+                  color: ZenTouchColors.surfaceSecondary,
                   borderRadius: BorderRadius.circular(14),
                 ),
-                child: Icon(
-                  icon,
-                  color: const Color(0xFF426B55),
-                  size: 30,
-                ),
+                child: Icon(icon, color: ZenTouchColors.primary, size: 30),
               ),
 
               const SizedBox(width: 14),
@@ -350,7 +342,7 @@ class ServiceCard extends StatelessWidget {
                     Text(
                       description,
                       style: const TextStyle(
-                        color: Colors.black54,
+                        color: ZenTouchColors.textSecondary,
                         fontSize: 12,
                       ),
                     ),
@@ -360,7 +352,7 @@ class ServiceCard extends StatelessWidget {
                     Text(
                       duration,
                       style: const TextStyle(
-                        color: Colors.grey,
+                        color: ZenTouchColors.textSecondary,
                         fontSize: 12,
                       ),
                     ),
@@ -375,7 +367,7 @@ class ServiceCard extends StatelessWidget {
                   Text(
                     price,
                     style: const TextStyle(
-                      color: Color(0xFF426B55),
+                      color: ZenTouchColors.primary,
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
                     ),
@@ -386,7 +378,7 @@ class ServiceCard extends StatelessWidget {
                   const Icon(
                     Icons.arrow_forward_ios,
                     size: 14,
-                    color: Colors.grey,
+                    color: ZenTouchColors.textSecondary,
                   ),
                 ],
               ),
@@ -420,33 +412,21 @@ class MenuCard extends StatelessWidget {
       onTap: onTap,
       borderRadius: BorderRadius.circular(16),
       child: Container(
-        padding: const EdgeInsets.symmetric(
-          vertical: 22,
-          horizontal: 10,
-        ),
+        padding: const EdgeInsets.symmetric(vertical: 22, horizontal: 10),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: ZenTouchColors.surface,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(
-            color: Colors.grey.shade200,
-          ),
+          border: Border.all(color: ZenTouchColors.border),
         ),
         child: Column(
           children: [
-            Icon(
-              icon,
-              color: const Color(0xFF426B55),
-              size: 32,
-            ),
+            Icon(icon, color: ZenTouchColors.primary, size: 32),
 
             const SizedBox(height: 10),
 
             Text(
               title,
-              style: const TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 13,
-              ),
+              style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 13),
             ),
           ],
         ),

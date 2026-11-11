@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_massage/view/model/booking_draft_model.dart';
+import 'package:flutter_application_massage/theme/app_theme.dart';
 
 // ====================== Model ======================
 
 enum BookingStatus {
-  pending('รอดำเนินการ', Colors.orange),
-  confirmed('ยืนยันแล้ว', Colors.green),
-  inProgress('กำลังให้บริการ', Colors.blue),
-  completed('เสร็จสิ้น', Colors.teal),
-  cancelled('ยกเลิกแล้ว', Colors.grey),
-  rejected('ไม่รับการจอง', Colors.red);
+  pending('รอดำเนินการ', Color.fromARGB(255, 224, 139, 27)),
+  confirmed('ยืนยันแล้ว', ZenTouchColors.success),
+  inProgress('กำลังให้บริการ', ZenTouchColors.primary),
+  completed('เสร็จสิ้น', Color.fromARGB(255, 60, 149, 88)),
+  cancelled('ยกเลิกแล้ว', Color.fromARGB(255, 255, 51, 40)),
+  rejected('ไม่รับการจอง', ZenTouchColors.error);
 
   final String label;
-  final MaterialColor color;
+  final Color color;
   const BookingStatus(this.label, this.color);
 }
 
@@ -278,7 +279,7 @@ class _MyBookingUiState extends State<MyBookingUi> {
             (ctx) => AlertDialog(
               icon: const Icon(
                 Icons.info_outline,
-                color: Colors.orange,
+                color: ZenTouchColors.warning,
                 size: 48,
               ),
               title: const Text('ไม่สามารถยกเลิกได้'),
@@ -371,7 +372,7 @@ class _MyBookingUiState extends State<MyBookingUi> {
                 width: 96,
                 child: Text(
                   label,
-                  style: TextStyle(color: Colors.grey.shade600),
+                  style: TextStyle(color: ZenTouchColors.textSecondary),
                 ),
               ),
               Expanded(
@@ -446,7 +447,9 @@ class _MyBookingUiState extends State<MyBookingUi> {
                 SizedBox(
                   width: double.infinity,
                   child: TextButton.icon(
-                    style: TextButton.styleFrom(foregroundColor: Colors.red),
+                    style: TextButton.styleFrom(
+                      foregroundColor: const Color.fromARGB(255, 209, 54, 77),
+                    ),
                     onPressed: () {
                       Navigator.pop(ctx);
                       _cancelBooking(b);
@@ -516,7 +519,7 @@ class _MyBookingUiState extends State<MyBookingUi> {
         SizedBox(height: 4),
         Text(
           'ตรวจสอบและจัดการรายการจองบริการของคุณ',
-          style: TextStyle(color: Colors.grey),
+          style: TextStyle(color: ZenTouchColors.textSecondary),
         ),
       ],
     );
@@ -539,25 +542,25 @@ class _MyBookingUiState extends State<MyBookingUi> {
       children: [
         _StatCard(
           icon: Icons.receipt_long,
-          color: Colors.indigo,
+          color: ZenTouchColors.primary,
           label: 'ทั้งหมด',
           value: '${_bookings.length}',
         ),
         _StatCard(
           icon: Icons.hourglass_top,
-          color: Colors.orange,
+          color: ZenTouchColors.warning,
           label: 'รอดำเนินการ',
           value: '$pending',
         ),
         _StatCard(
           icon: Icons.check_circle,
-          color: Colors.green,
+          color: ZenTouchColors.success,
           label: 'ยืนยันแล้ว',
           value: '$confirmed',
         ),
         _StatCard(
           icon: Icons.verified,
-          color: Colors.teal,
+          color: ZenTouchColors.accent,
           label: 'เสร็จสิ้น',
           value: '$completed',
         ),
@@ -611,7 +614,10 @@ class _MyBookingUiState extends State<MyBookingUi> {
     return Card(
       margin: const EdgeInsets.only(bottom: 14),
       elevation: 1,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(18),
+        side: const BorderSide(color: ZenTouchColors.border),
+      ),
       child: Padding(
         padding: const EdgeInsets.all(14),
         child: Column(
@@ -623,7 +629,7 @@ class _MyBookingUiState extends State<MyBookingUi> {
                   child: Text(
                     'Booking #${b.id}',
                     style: TextStyle(
-                      color: Colors.grey.shade700,
+                      color: ZenTouchColors.textSecondary,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -723,7 +729,7 @@ class _MyBookingUiState extends State<MyBookingUi> {
                   Expanded(
                     child: FilledButton(
                       style: FilledButton.styleFrom(
-                        backgroundColor: Colors.red.shade600,
+                        backgroundColor: const Color.fromARGB(255, 198, 63, 83),
                       ),
                       onPressed: () => _cancelBooking(b),
                       child: const Text('ยกเลิกการจอง'),
@@ -752,11 +758,15 @@ class _MyBookingUiState extends State<MyBookingUi> {
     padding: const EdgeInsets.symmetric(vertical: 40),
     child: Column(
       children: [
-        Icon(Icons.inbox_outlined, size: 56, color: Colors.grey.shade400),
+        Icon(
+          Icons.inbox_outlined,
+          size: 56,
+          color: ZenTouchColors.primaryLight,
+        ),
         const SizedBox(height: 8),
         Text(
           'ไม่มีรายการในสถานะนี้',
-          style: TextStyle(color: Colors.grey.shade600),
+          style: const TextStyle(color: ZenTouchColors.textSecondary),
         ),
       ],
     ),
@@ -789,7 +799,7 @@ class _MyBookingUiState extends State<MyBookingUi> {
             Text(
               'คุณยังไม่มีรายการจองบริการ\nเริ่มต้นผ่อนคลายด้วยการจองบริการที่คุณชื่นชอบได้เลย',
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.grey.shade600),
+              style: const TextStyle(color: ZenTouchColors.textSecondary),
             ),
             const SizedBox(height: 24),
             FilledButton.icon(
@@ -808,7 +818,7 @@ class _MyBookingUiState extends State<MyBookingUi> {
 
 class _StatCard extends StatelessWidget {
   final IconData icon;
-  final MaterialColor color;
+  final Color color;
   final String label;
   final String value;
 
@@ -824,7 +834,7 @@ class _StatCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: color.shade50,
+        color: color.withValues(alpha: 0.14),
         borderRadius: BorderRadius.circular(18),
       ),
       child: Column(
@@ -833,14 +843,14 @@ class _StatCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(icon, color: color.shade700, size: 20),
+              Icon(icon, color: ZenTouchColors.primaryDark, size: 20),
               const SizedBox(width: 6),
               Expanded(
                 child: Text(
                   label,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                    color: color.shade900,
+                    color: ZenTouchColors.textPrimary,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -855,7 +865,7 @@ class _StatCard extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.w800,
-                  color: color.shade800,
+                  color: ZenTouchColors.primaryDark,
                 ),
               ),
               const SizedBox(width: 6),
@@ -863,7 +873,10 @@ class _StatCard extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: 5),
                 child: Text(
                   'รายการ',
-                  style: TextStyle(fontSize: 12, color: color.shade700),
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: ZenTouchColors.textSecondary,
+                  ),
                 ),
               ),
             ],
@@ -884,13 +897,13 @@ class _StatusBadge extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(
-        color: c.shade50,
+        color: c.withValues(alpha: 0.14),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Text(
         status.label,
-        style: TextStyle(
-          color: c.shade800,
+        style: const TextStyle(
+          color: ZenTouchColors.primaryDark,
           fontSize: 12,
           fontWeight: FontWeight.w700,
         ),
@@ -908,7 +921,7 @@ class _InfoLine extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Icon(icon, size: 18, color: Colors.grey.shade600),
+        Icon(icon, size: 18, color: ZenTouchColors.textSecondary),
         const SizedBox(width: 8),
         Expanded(child: Text(text)),
       ],
@@ -949,7 +962,11 @@ class _CancelDialogState extends State<_CancelDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      icon: const Icon(Icons.cancel_outlined, color: Colors.red, size: 48),
+      icon: const Icon(
+        Icons.cancel_outlined,
+        color: ZenTouchColors.error,
+        size: 48,
+      ),
       title: const Text('ยกเลิกการจอง'),
       content: SingleChildScrollView(
         child: Column(
@@ -994,7 +1011,7 @@ class _CancelDialogState extends State<_CancelDialog> {
           child: const Text('ไม่ยกเลิก'),
         ),
         FilledButton(
-          style: FilledButton.styleFrom(backgroundColor: Colors.red),
+          style: FilledButton.styleFrom(backgroundColor: ZenTouchColors.error),
           onPressed:
               !_valid
                   ? null

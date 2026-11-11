@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_application_massage/theme/app_theme.dart';
 
 // ---------------------------------------------------------------------------
 // Theme constants
 // ---------------------------------------------------------------------------
 class _AppColors {
-  static const Color primaryGreen = Color(0xFF426B55);
-  static const Color darkGreen = Color(0xFF294C3A);
-  static const Color cream = Color(0xFFF7F6F0);
-  static const Color cardWhite = Color(0xFFFFFFFF);
-  static const Color lightGreen = Color(0xFFE7EFE8);
-  static const Color textMuted = Color(0xFF7A877F);
-  static const Color danger = Color(0xFFB3412F);
-  static const Color dangerLight = Color(0xFFFBEAE6);
-  static const Color gold = Color(0xFFB8934A);
-  static const Color goldLight = Color(0xFFF6EFDD);
-  static const Color sage = Color(0xFF5E8C78);
+  static const Color primaryGreen = ZenTouchColors.primary;
+  static const Color darkGreen = ZenTouchColors.primaryDark;
+  static const Color cream = ZenTouchColors.background;
+  static const Color cardWhite = ZenTouchColors.surface;
+  static const Color lightGreen = ZenTouchColors.surfaceSecondary;
+  static const Color textMuted = ZenTouchColors.textSecondary;
+  static const Color danger = ZenTouchColors.error;
+  static const Color dangerLight = ZenTouchColors.errorContainer;
+  static const Color gold = ZenTouchColors.warning;
+  static const Color goldLight = ZenTouchColors.warningContainer;
+  static const Color sage = ZenTouchColors.success;
 }
 
 TextStyle _prompt(
@@ -63,10 +64,13 @@ class _ProfileUiState extends State<ProfileUi> {
   // ----- Avatar presets (mock profile photos) -----
   int _avatarIndex = 0;
   static const List<_AvatarPreset> _avatarPresets = [
-    _AvatarPreset(Icons.spa_rounded, Color(0xFFE7EFE8)),
-    _AvatarPreset(Icons.self_improvement_rounded, Color(0xFFF6EFDD)),
-    _AvatarPreset(Icons.local_florist_rounded, Color(0xFFF3E4E1)),
-    _AvatarPreset(Icons.face_rounded, Color(0xFFE3ECF1)),
+    _AvatarPreset(Icons.spa_rounded, ZenTouchColors.surfaceSecondary),
+    _AvatarPreset(
+      Icons.self_improvement_rounded,
+      ZenTouchColors.warningContainer,
+    ),
+    _AvatarPreset(Icons.local_florist_rounded, ZenTouchColors.blushContainer),
+    _AvatarPreset(Icons.face_rounded, ZenTouchColors.lavenderContainer),
   ];
 
   static const List<String> _thaiMonths = [
@@ -96,10 +100,7 @@ class _ProfileUiState extends State<ProfileUi> {
       ..hideCurrentSnackBar()
       ..showSnackBar(
         SnackBar(
-          content: Text(
-            message,
-            style: _prompt(14, color: Colors.white),
-          ),
+          content: Text(message, style: _prompt(14, color: Colors.white)),
           backgroundColor: _AppColors.darkGreen,
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(
@@ -309,9 +310,10 @@ class _ProfileUiState extends State<ProfileUi> {
                           color: preset.background,
                           shape: BoxShape.circle,
                           border: Border.all(
-                            color: selected
-                                ? _AppColors.primaryGreen
-                                : Colors.transparent,
+                            color:
+                                selected
+                                    ? _AppColors.primaryGreen
+                                    : Colors.transparent,
                             width: 2.5,
                           ),
                         ),
@@ -403,7 +405,10 @@ class _ProfileUiState extends State<ProfileUi> {
               const SizedBox(height: 16),
               _buildSummaryRow(),
               const SizedBox(height: 24),
-              const _SectionTitle(title: 'ข้อมูลส่วนตัว', subtitle: 'Personal Information'),
+              const _SectionTitle(
+                title: 'ข้อมูลส่วนตัว',
+                subtitle: 'Personal Information',
+              ),
               _buildPersonalInfoCard(),
               const SizedBox(height: 24),
               const _SectionTitle(title: 'บัญชีของฉัน', subtitle: 'My Account'),
@@ -412,7 +417,10 @@ class _ProfileUiState extends State<ProfileUi> {
               const _SectionTitle(title: 'การตั้งค่า', subtitle: 'Settings'),
               _buildSettingsCard(),
               const SizedBox(height: 24),
-              const _SectionTitle(title: 'ช่วยเหลือ', subtitle: 'Help & Support'),
+              const _SectionTitle(
+                title: 'ช่วยเหลือ',
+                subtitle: 'Help & Support',
+              ),
               _buildHelpCard(),
               const SizedBox(height: 28),
               _buildLogoutButton(),
@@ -443,14 +451,8 @@ class _ProfileUiState extends State<ProfileUi> {
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'โปรไฟล์ของฉัน',
-            style: _prompt(20, weight: FontWeight.w600),
-          ),
-          Text(
-            'My Profile',
-            style: _prompt(12, color: _AppColors.textMuted),
-          ),
+          Text('โปรไฟล์ของฉัน', style: _prompt(20, weight: FontWeight.w600)),
+          Text('My Profile', style: _prompt(12, color: _AppColors.textMuted)),
         ],
       ),
       actions: [
@@ -490,7 +492,7 @@ class _ProfileUiState extends State<ProfileUi> {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: _AppColors.darkGreen.withOpacity(0.25),
+            color: _AppColors.darkGreen.withValues(alpha: 0.25),
             blurRadius: 18,
             offset: const Offset(0, 8),
           ),
@@ -566,9 +568,11 @@ class _ProfileUiState extends State<ProfileUi> {
                     vertical: 4,
                   ),
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.18),
+                    color: Colors.white.withValues(alpha: 0.18),
                     borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: Colors.white.withOpacity(0.5)),
+                    border: Border.all(
+                      color: Colors.white.withValues(alpha: 0.5),
+                    ),
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -618,7 +622,7 @@ class _ProfileUiState extends State<ProfileUi> {
             value: '$_upcomingBookings',
             label: 'การจองที่จะถึง',
             accent: _AppColors.sage,
-            background: const Color(0xFFE3EFEA),
+            background: ZenTouchColors.surfaceSecondary,
           ),
         ),
         const SizedBox(width: 10),
@@ -815,18 +819,14 @@ class _ProfileUiState extends State<ProfileUi> {
         icon: const Icon(Icons.logout_rounded, color: _AppColors.danger),
         label: Text(
           'ออกจากระบบ',
-          style: _prompt(
-            16,
-            weight: FontWeight.w600,
-            color: _AppColors.danger,
-          ),
+          style: _prompt(16, weight: FontWeight.w600, color: _AppColors.danger),
         ),
         style: ElevatedButton.styleFrom(
           backgroundColor: _AppColors.dangerLight,
           elevation: 0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
-            side: BorderSide(color: _AppColors.danger.withOpacity(0.25)),
+            side: BorderSide(color: _AppColors.danger.withValues(alpha: 0.25)),
           ),
         ),
       ),
@@ -840,7 +840,7 @@ class _ProfileUiState extends State<ProfileUi> {
         color: _AppColors.cardWhite,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.06),
+            color: Colors.black.withValues(alpha: 0.06),
             blurRadius: 12,
             offset: const Offset(0, -2),
           ),
@@ -949,9 +949,10 @@ class _SummaryCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: _AppColors.cardWhite,
         borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: ZenTouchColors.border),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: Colors.black.withValues(alpha: 0.04),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -971,7 +972,11 @@ class _SummaryCard extends StatelessWidget {
           const SizedBox(height: 10),
           Text(
             value,
-            style: _prompt(22, weight: FontWeight.w700, color: accent),
+            style: _prompt(
+              22,
+              weight: FontWeight.w700,
+              color: ZenTouchColors.textPrimary,
+            ),
           ),
           const SizedBox(height: 2),
           Text(
@@ -1032,7 +1037,7 @@ class _SectionCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(18),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: Colors.black.withValues(alpha: 0.04),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -1056,7 +1061,7 @@ class _TileDivider extends StatelessWidget {
       thickness: 1,
       indent: 68,
       endIndent: 16,
-      color: Color(0xFFEFEFE8),
+      color: ZenTouchColors.border,
     );
   }
 }
@@ -1105,10 +1110,7 @@ class _InfoTile extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  label,
-                  style: _prompt(12, color: _AppColors.textMuted),
-                ),
+                Text(label, style: _prompt(12, color: _AppColors.textMuted)),
                 const SizedBox(height: 2),
                 Text(
                   value,
@@ -1237,10 +1239,10 @@ class _SwitchTile extends StatelessWidget {
             Switch(
               value: value,
               onChanged: enabled ? onChanged : null,
-              activeColor: Colors.white,
+              activeThumbColor: Colors.white,
               activeTrackColor: _AppColors.primaryGreen,
               inactiveThumbColor: Colors.white,
-              inactiveTrackColor: const Color(0xFFCBD3CE),
+              inactiveTrackColor: ZenTouchColors.border,
             ),
           ],
         ),
@@ -1259,7 +1261,7 @@ class _SheetHandle extends StatelessWidget {
         width: 44,
         height: 4,
         decoration: BoxDecoration(
-          color: const Color(0xFFD9DED9),
+          color: ZenTouchColors.border,
           borderRadius: BorderRadius.circular(4),
         ),
       ),
@@ -1382,7 +1384,9 @@ class _EditFieldSheetState extends State<_EditFieldSheet> {
                         onPressed: () => Navigator.pop(context),
                         style: OutlinedButton.styleFrom(
                           minimumSize: const Size.fromHeight(48),
-                          side: const BorderSide(color: _AppColors.primaryGreen),
+                          side: const BorderSide(
+                            color: _AppColors.primaryGreen,
+                          ),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(14),
                           ),
@@ -1468,27 +1472,28 @@ class _GenderSheetState extends State<_GenderSheet> {
             Wrap(
               spacing: 10,
               runSpacing: 8,
-              children: _options.map((option) {
-                final selected = option == _selected;
-                return ChoiceChip(
-                  label: Text(
-                    option,
-                    style: _prompt(
-                      14,
-                      color: selected ? Colors.white : _AppColors.darkGreen,
-                    ),
-                  ),
-                  selected: selected,
-                  selectedColor: _AppColors.primaryGreen,
-                  backgroundColor: _AppColors.lightGreen,
-                  showCheckmark: false,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    side: BorderSide.none,
-                  ),
-                  onSelected: (_) => setState(() => _selected = option),
-                );
-              }).toList(),
+              children:
+                  _options.map((option) {
+                    final selected = option == _selected;
+                    return ChoiceChip(
+                      label: Text(
+                        option,
+                        style: _prompt(
+                          14,
+                          color: selected ? Colors.white : _AppColors.darkGreen,
+                        ),
+                      ),
+                      selected: selected,
+                      selectedColor: _AppColors.primaryGreen,
+                      backgroundColor: _AppColors.lightGreen,
+                      showCheckmark: false,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        side: BorderSide.none,
+                      ),
+                      onSelected: (_) => setState(() => _selected = option),
+                    );
+                  }).toList(),
             ),
             const SizedBox(height: 20),
             Row(

@@ -3,6 +3,7 @@ import 'package:flutter_application_massage/data/massage_mock_data.dart';
 import 'package:flutter_application_massage/view/model/booking_draft_model.dart';
 import 'package:flutter_application_massage/view/model/chat_message_model.dart';
 import 'package:flutter_application_massage/view/service/gemini_service.dart';
+import 'package:flutter_application_massage/theme/app_theme.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AiChatUi extends StatefulWidget {
@@ -639,7 +640,7 @@ class _AiChatUiState extends State<AiChatUi> {
                       width: 7,
                       height: 7,
                       decoration: const BoxDecoration(
-                        color: Color(0xFF56A76A),
+                        color: ZenTouchColors.success,
                         shape: BoxShape.circle,
                       ),
                     ),
@@ -668,7 +669,7 @@ class _AiChatUiState extends State<AiChatUi> {
       bottomNavigationBar: NavigationBar(
         selectedIndex: 2,
         height: 68,
-        backgroundColor: Colors.white,
+        backgroundColor: ZenTouchColors.surface,
         indicatorColor: _SpaColors.lightGreen,
         onDestinationSelected: _showNavigation,
         destinations: const [
@@ -842,7 +843,7 @@ class _WelcomeCard extends StatelessWidget {
         border: Border.all(color: _SpaColors.border),
         boxShadow: const [
           BoxShadow(
-            color: Color(0x0A294C3A),
+            color: Color(0x0A493457),
             blurRadius: 18,
             offset: Offset(0, 6),
           ),
@@ -1044,13 +1045,17 @@ class _BookingConfirmationCard extends StatelessWidget {
             width: double.infinity,
             padding: const EdgeInsets.all(11),
             decoration: BoxDecoration(
-              color: const Color(0xFFFFF7E5),
+              color: ZenTouchColors.warning.withValues(alpha: 0.16),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Text(
               'นี่คือการจองจำลองในแอปเท่านั้น '
               'ไม่ได้จองคิวจริงหรือส่งข้อมูลไปยังร้าน',
-              style: _prompt(11, color: const Color(0xFF755D2D), height: 1.5),
+              style: _prompt(
+                11,
+                color: ZenTouchColors.primaryDark,
+                height: 1.5,
+              ),
             ),
           ),
         ],
@@ -1135,16 +1140,16 @@ class _RequestErrorCard extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 8),
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: const Color(0xFFFFF2EF),
+        color: ZenTouchColors.error.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFFF0CEC5)),
+        border: Border.all(color: ZenTouchColors.error.withValues(alpha: 0.35)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             message,
-            style: _prompt(12, color: const Color(0xFF8A3D2D), height: 1.5),
+            style: _prompt(12, color: ZenTouchColors.error, height: 1.5),
           ),
           const SizedBox(height: 8),
           TextButton.icon(
@@ -1166,12 +1171,12 @@ class _RequestErrorCard extends StatelessWidget {
 }
 
 class _SpaColors {
-  static const primaryGreen = Color(0xFF426B55);
-  static const darkGreen = Color(0xFF294C3A);
-  static const cream = Color(0xFFF7F6F0);
-  static const lightGreen = Color(0xFFE7EFE8);
-  static const muted = Color(0xFF7C8981);
-  static const border = Color(0xFFE6E9E3);
+  static const primaryGreen = ZenTouchColors.primary;
+  static const darkGreen = ZenTouchColors.primaryDark;
+  static const cream = ZenTouchColors.background;
+  static const lightGreen = ZenTouchColors.surfaceSecondary;
+  static const muted = ZenTouchColors.textSecondary;
+  static const border = ZenTouchColors.border;
 }
 
 TextStyle _prompt(

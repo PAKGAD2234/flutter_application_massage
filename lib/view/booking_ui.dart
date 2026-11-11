@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_massage/theme/app_theme.dart';
 
 class BookingUi extends StatefulWidget {
   const BookingUi({super.key});
@@ -22,14 +23,33 @@ class _BookingUiState extends State<BookingUi> {
   static const int _maxHours = 8;
 
   static const _timeSlots = [
-    '09:00', '10:00', '11:00', '12:00',
-    '13:00', '14:00', '15:00', '16:00',
-    '17:00', '18:00', '19:00', '20:00',
+    '09:00',
+    '10:00',
+    '11:00',
+    '12:00',
+    '13:00',
+    '14:00',
+    '15:00',
+    '16:00',
+    '17:00',
+    '18:00',
+    '19:00',
+    '20:00',
   ];
 
   static const _months = [
-    'ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.',
-    'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.',
+    'ม.ค.',
+    'ก.พ.',
+    'มี.ค.',
+    'เม.ย.',
+    'พ.ค.',
+    'มิ.ย.',
+    'ก.ค.',
+    'ส.ค.',
+    'ก.ย.',
+    'ต.ค.',
+    'พ.ย.',
+    'ธ.ค.',
   ];
 
   Color get _primary => Theme.of(context).colorScheme.primary;
@@ -81,9 +101,9 @@ class _BookingUiState extends State<BookingUi> {
     if (!_formKey.currentState!.validate()) return;
 
     if (_selectedDate == null || _selectedTime == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('กรุณาเลือกวันที่และเวลา')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('กรุณาเลือกวันที่และเวลา')));
       return;
     }
 
@@ -100,29 +120,36 @@ class _BookingUiState extends State<BookingUi> {
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (ctx) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        icon: const Icon(Icons.check_circle, color: Colors.green, size: 64),
-        title: const Text('จองสำเร็จ'),
-        content: Text(
-          '${_formatDate(_selectedDate!)}\n'
-          '$_timeRangeText ($_hours ชั่วโมง)\n'
-          'จำนวน $_guests คน',
-          textAlign: TextAlign.center,
-        ),
-        actions: [
-          SizedBox(
-            width: double.infinity,
-            child: FilledButton(
-              onPressed: () {
-                Navigator.pop(ctx);
-                Navigator.pushReplacementNamed(context, '/my-booking');
-              },
-              child: const Text('ดูรายการจองของฉัน'),
+      builder:
+          (ctx) => AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
             ),
+            icon: const Icon(
+              Icons.check_circle,
+              color: ZenTouchColors.success,
+              size: 64,
+            ),
+            title: const Text('จองสำเร็จ'),
+            content: Text(
+              '${_formatDate(_selectedDate!)}\n'
+              '$_timeRangeText ($_hours ชั่วโมง)\n'
+              'จำนวน $_guests คน',
+              textAlign: TextAlign.center,
+            ),
+            actions: [
+              SizedBox(
+                width: double.infinity,
+                child: FilledButton(
+                  onPressed: () {
+                    Navigator.pop(ctx);
+                    Navigator.pushReplacementNamed(context, '/my-booking');
+                  },
+                  child: const Text('ดูรายการจองของฉัน'),
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
     );
   }
 
@@ -131,10 +158,7 @@ class _BookingUiState extends State<BookingUi> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('จองคิว'),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: const Text('จองคิว'), centerTitle: true),
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: Form(
@@ -159,8 +183,11 @@ class _BookingUiState extends State<BookingUi> {
                 controller: _nameCtrl,
                 textInputAction: TextInputAction.next,
                 decoration: _inputDecoration('ชื่อ-นามสกุล', Icons.person),
-                validator: (v) =>
-                    (v == null || v.trim().isEmpty) ? 'กรุณากรอกชื่อ' : null,
+                validator:
+                    (v) =>
+                        (v == null || v.trim().isEmpty)
+                            ? 'กรุณากรอกชื่อ'
+                            : null,
               ),
               const SizedBox(height: 12),
               TextFormField(
@@ -178,8 +205,10 @@ class _BookingUiState extends State<BookingUi> {
               TextFormField(
                 controller: _noteCtrl,
                 maxLines: 3,
-                decoration:
-                    _inputDecoration('หมายเหตุ (ถ้ามี)', Icons.edit_note),
+                decoration: _inputDecoration(
+                  'หมายเหตุ (ถ้ามี)',
+                  Icons.edit_note,
+                ),
               ),
             ],
           ),
@@ -209,12 +238,12 @@ class _BookingUiState extends State<BookingUi> {
   }
 
   Widget _sectionTitle(String text) => Padding(
-        padding: const EdgeInsets.only(bottom: 10),
-        child: Text(
-          text,
-          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
-        ),
-      );
+    padding: const EdgeInsets.only(bottom: 10),
+    child: Text(
+      text,
+      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+    ),
+  );
 
   InputDecoration _inputDecoration(String label, IconData icon) =>
       InputDecoration(
@@ -233,7 +262,7 @@ class _BookingUiState extends State<BookingUi> {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(14),
           border: Border.all(
-            color: hasDate ? _primary : Colors.grey.shade400,
+            color: hasDate ? _primary : ZenTouchColors.border,
             width: hasDate ? 1.5 : 1,
           ),
         ),
@@ -246,7 +275,7 @@ class _BookingUiState extends State<BookingUi> {
                 hasDate ? _formatDate(_selectedDate!) : 'แตะเพื่อเลือกวันที่',
                 style: TextStyle(
                   fontSize: 15,
-                  color: hasDate ? null : Colors.grey.shade600,
+                  color: hasDate ? null : ZenTouchColors.textSecondary,
                 ),
               ),
             ),
@@ -261,17 +290,21 @@ class _BookingUiState extends State<BookingUi> {
     return Wrap(
       spacing: 10,
       runSpacing: 10,
-      children: _timeSlots.map((t) {
-        return ChoiceChip(
-          label: Text(t),
-          selected: _selectedTime == t,
-          onSelected: (_) => setState(() {
-            _selectedTime = t;
-            // ถ้าชั่วโมงที่เลือกไว้เกินเวลาปิด ให้ลดลงอัตโนมัติ
-            if (_hours > _maxSelectableHours) _hours = _maxSelectableHours;
-          }),
-        );
-      }).toList(),
+      children:
+          _timeSlots.map((t) {
+            return ChoiceChip(
+              label: Text(t),
+              selected: _selectedTime == t,
+              onSelected:
+                  (_) => setState(() {
+                    _selectedTime = t;
+                    // ถ้าชั่วโมงที่เลือกไว้เกินเวลาปิด ให้ลดลงอัตโนมัติ
+                    if (_hours > _maxSelectableHours) {
+                      _hours = _maxSelectableHours;
+                    }
+                  }),
+            );
+          }).toList(),
     );
   }
 
@@ -281,7 +314,7 @@ class _BookingUiState extends State<BookingUi> {
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: Colors.grey.shade400),
+        border: Border.all(color: ZenTouchColors.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -298,12 +331,13 @@ class _BookingUiState extends State<BookingUi> {
               ),
               Text(
                 '$_hours ชม.',
-                style:
-                    const TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
               IconButton(
-                onPressed:
-                    _hours < max ? () => setState(() => _hours++) : null,
+                onPressed: _hours < max ? () => setState(() => _hours++) : null,
                 icon: const Icon(Icons.add_circle_outline),
               ),
             ],
@@ -314,10 +348,7 @@ class _BookingUiState extends State<BookingUi> {
               padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
               child: Text(
                 'ช่วงเวลา: $_timeRangeText',
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  color: _primary,
-                ),
+                style: TextStyle(fontWeight: FontWeight.w600, color: _primary),
               ),
             ),
           ],
@@ -331,7 +362,7 @@ class _BookingUiState extends State<BookingUi> {
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: Colors.grey.shade400),
+        border: Border.all(color: ZenTouchColors.border),
       ),
       child: Row(
         children: [
