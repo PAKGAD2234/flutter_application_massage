@@ -1,186 +1,182 @@
-# 🌿 ZenTouch AI-Powered Massage Booking Application
+# 🌿 ZenTouch  แอปพลิเคชันจองบริการนวดพร้อมผู้ช่วย AI(miniproject)
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/ba998142-0346-4eaf-aced-3877461b8f3a" width="180" alt="ZenTouch Splash Screen"/>
 </p>
 
-<h3 align="center">A Smarter Way to Relax. A Simpler Way to Book.</h3>
+<h3 align="center">ผ่อนคลายได้ง่ายขึ้น จองบริการได้สะดวกกว่าเดิม</h3>
 
 <p align="center">
-  A Flutter-based massage booking application that combines intuitive booking experiences with AI-assisted conversational interactions.
+  แอปพลิเคชันจองบริการนวดที่ออกแบบมาเพื่อยกระดับประสบการณ์ของลูกค้า ด้วยการจองผ่าน AI Chat และระบบจองด้วยตนเอง
 </p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Flutter-Framework-02569B?style=for-the-badge&logo=flutter&logoColor=white" />
-  <img src="https://img.shields.io/badge/Dart-Language-0175C2?style=for-the-badge&logo=dart&logoColor=white" />
-  <img src="https://img.shields.io/badge/Platform-Mobile-4CAF50?style=for-the-badge&logo=android&logoColor=white" />
-  <img src="https://img.shields.io/badge/Project-Frontend%20Development-9C6ADE?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Dart-Programming%20Language-0175C2?style=for-the-badge&logo=dart&logoColor=white" />
+  <img src="https://img.shields.io/badge/Project-Mobile%20Application-9C6ADE?style=for-the-badge" />
 </p>
 
 ---
 
-## ✨ Overview
+## ✨ เกี่ยวกับโปรเจกต์
 
-**ZenTouch** is a customer-facing massage booking application designed to make wellness service reservations more convenient and accessible.
+**ZenTouch** คือโปรเจกต์พัฒนาเว็บแอปพลิเคชันด้วย Flutter และ Dart สำหรับการจองบริการนวด โดยมุ่งเน้นการออกแบบประสบการณ์ใช้งานของลูกค้าให้สะดวก เข้าใจง่าย และลดความยุ่งยากในขั้นตอนการจอง
 
-The application introduces two booking experiences:
+จุดเด่นของแอปพลิเคชันคือการนำแนวคิด AI Conversational Booking มาใช้กับกระบวนการจองบริการ ลูกค้าสามารถพูดคุยกับผู้ช่วย AI ผ่านหน้าจอแชท เพื่อระบุความต้องการและรวบรวมรายละเอียดการจองให้อยู่ในรูปแบบที่เข้าใจง่าย
 
-- **AI-Assisted Booking:** Customers can interact through a conversational chat interface to provide their booking preferences and review a structured booking summary.
-- **Manual Booking:** Customers can independently select massage services, durations, and preferred appointment times.
+นอกจากนี้ยังรองรับการจองด้วยตนเอง สำหรับลูกค้าที่ต้องการเลือกบริการ ระยะเวลาการนวด และเวลานัดหมายด้วยตัวเอง
 
-Beyond booking, ZenTouch provides an organized interface for managing reservations, tracking service statuses, and maintaining personal account settings.
+## 🚀 ฟีเจอร์หลัก
 
-The project focuses on mobile UI development, user experience design, and creating an intuitive interaction flow for customers.
+### 1. 🏠 หน้าหลักและรายการบริการ
+- แสดงรายการบริการนวดที่เปิดให้บริการ
+- แสดงรายละเอียดและราคาของแต่ละบริการ
+- เข้าถึงระบบจองผ่าน AI ได้จากหน้าหลัก
+- ออกแบบหน้าจอให้ใช้งานง่าย พร้อมบรรยากาศที่สื่อถึงความผ่อนคลาย
 
-## 🚀 Key Features
+### 2. 🤖 ระบบจองผ่าน AI (AI Conversational Booking)
+- หน้าจอสนทนาระหว่างลูกค้ากับ AI
+- รองรับการรวบรวมข้อมูลการจองผ่านบทสนทนา
+- แสดงข้อมูลการจองในรูปแบบสรุป
+- ลูกค้าสามารถตรวจสอบรายละเอียดก่อนดำเนินการต่อได้
 
-### 1. 🏠 Home & Service Discovery
-- Browse available massage services.
-- Explore service information and pricing.
-- Access AI-assisted booking directly from the home screen.
-- Clean and relaxing interface designed around the wellness experience.
+**ข้อมูลที่แสดงในสรุปการจอง**
+- ชื่อผู้จอง
+- รายการบริการที่เลือก
+- ราคาค่าบริการ
+- วันที่และเวลาที่นัดหมาย
 
-### 2. 🤖 AI Conversational Booking
-- Interactive chat interface for booking assistance.
-- Conversational booking flow.
-- Collects customer booking information through chat.
-- Generates a structured booking summary for customer review.
-- Displays essential booking details, including:
-  - Customer name
-  - Selected massage service
-  - Service price
-  - Appointment date and time
+### 3. 📅 ระบบจองด้วยตนเอง (Manual Booking)
+- เลือกบริการนวดที่ต้องการ
+- เลือกระยะเวลาการนวดเป็นชั่วโมง
+- เลือกวันและเวลาที่ต้องการเข้ารับบริการ
+- ตรวจสอบรายละเอียดการจองก่อนดำเนินการ
 
-### 3. 📅 Manual Booking
-- Book appointments without using the AI chat.
-- Select preferred massage services.
-- Choose massage duration.
-- Select available appointment times.
-- Review booking details before proceeding.
+### 4. 📋 หน้าจัดการรายการจอง (Booking Management)
+- แสดงรายการจองทั้งหมดของลูกค้า
+- สรุปจำนวนรายการจองและบริการที่ใช้
+- แสดงสถานะของแต่ละรายการ
+- แยกรายการที่กำลังดำเนินการและรายการที่เสร็จสิ้นแล้ว
+- ตรวจสอบรายละเอียดการจองแต่ละรายการได้
 
-### 4. 📋 Booking Management
-- View booking history and reservations.
-- Monitor the number of booked services.
-- Track individual booking statuses.
-- Separate ongoing and completed appointments.
-- View detailed information for each reservation.
-
-### 5. 👤 Profile & Settings
-- View and manage personal profile information.
-- Basic account settings.
-- Change password.
-- Enable or disable notification sounds.
-- Access additional account-related options.
+### 5. 👤 โปรไฟล์และการตั้งค่า (Profile & Settings)
+- แสดงข้อมูลส่วนตัวของผู้ใช้งาน
+- จัดการข้อมูลบัญชีเบื้องต้น
+- เปลี่ยนรหัสผ่าน
+- เปิดและปิดเสียงแจ้งเตือน
+- เข้าถึงเมนูตั้งค่าต่าง ๆ ภายในแอปพลิเคชัน
 
 ---
 
-## 📱 Application Preview
+## 📱 ภาพตัวอย่างการใช้งาน (Application Preview)
 
-### Splash Screen
-
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/ba998142-0346-4eaf-aced-3877461b8f3a" width="260" alt="ZenTouch Splash Screen"/>
-</p>
-
-### Home & Massage Services
+### 01 — Splash Screen
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/853d8ef1-0516-495d-a273-d291a3ddcd88" width="280" alt="Home Screen"/>
+  <img src="https://github.com/user-attachments/assets/ba998142-0346-4eaf-aced-3877461b8f3a" width="250" alt="หน้าเริ่มต้นแอปพลิเคชัน"/>
 </p>
 
-Explore massage services and discover a convenient way to book through AI assistance.
-
-### AI Conversational Booking
+### 02 — หน้าหลักและรายการบริการ
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/5122b569-72d2-4d58-a322-2d111e30bb7f" width="280" alt="AI Booking Screen"/>
+  <img src="https://github.com/user-attachments/assets/853d8ef1-0516-495d-a273-d291a3ddcd88" width="280" alt="หน้าหลัก"/>
+</p>
+
+แสดงรายการบริการนวด พร้อมช่องทางเข้าสู่ระบบจองผ่าน AI
+
+### 03 — สนทนากับ AI เพื่อจองบริการ
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/5122b569-72d2-4d58-a322-2d111e30bb7f" width="280" alt="หน้าจองผ่าน AI"/>
 </p>
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/b9bd1ee7-0143-4865-b2f8-d80f1fa7f35e" width="360" alt="AI Chat Interface"/>
+  <img src="https://github.com/user-attachments/assets/b9bd1ee7-0143-4865-b2f8-d80f1fa7f35e" width="350" alt="หน้าสนทนากับ AI"/>
 </p>
 
-A conversational interface designed to make booking feel more natural and effortless.
+ออกแบบประสบการณ์การจองผ่านบทสนทนา เพื่อให้ลูกค้าสามารถแจ้งความต้องการและให้ AI ช่วยรวบรวมข้อมูลการจองได้อย่างเป็นธรรมชาติ
 
-### AI Booking Summary
+### 04 — สรุปรายละเอียดการจองโดย AI
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/609e6871-1f27-4a8b-b07e-9681b0b59348" width="360" alt="AI Booking Summary"/>
+  <img src="https://github.com/user-attachments/assets/609e6871-1f27-4a8b-b07e-9681b0b59348" width="350" alt="หน้าสรุปการจอง"/>
 </p>
 
-The booking information is organized into a clear summary, allowing customers to review their selected services and appointment details.
+รวบรวมข้อมูลสำคัญจากการสนทนาให้อยู่ในรูปแบบที่เป็นระเบียบ ช่วยให้ลูกค้าตรวจสอบบริการ ราคา และวันนัดหมายได้ง่ายขึ้น
 
-### Manual Booking
+### 05 — ระบบจองด้วยตนเอง
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/bf3ad72e-4c6c-4a15-be6b-a70c20dbc59d" width="280" alt="Manual Booking Interface"/>
+  <img src="https://github.com/user-attachments/assets/bf3ad72e-4c6c-4a8b-b07b-6a70c20dbc59" width="280" alt="หน้าจองบริการด้วยตนเอง"/>
 </p>
 
-Customers can also make reservations independently by selecting services, massage duration, and appointment times.
+รองรับการจองโดยไม่ต้องผ่าน AI ลูกค้าสามารถเลือกบริการ ระยะเวลาการนวด และเวลาที่ต้องการเข้ารับบริการได้ด้วยตนเอง
 
-### Booking Management
+### 06 — หน้าจัดการรายการจอง
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/ea1661cf-f858-416c-ace3-1cbef6145961" width="250" alt="Booking Management"/>
-  <img src="https://github.com/user-attachments/assets/a87871a1-fd69-431f-a60d-00e5018436c9" width="250" alt="Booking Details"/>
-  <img src="https://github.com/user-attachments/assets/ea1661cf-f858-416c-ace3-1cbef6145961" width="250" alt="Booking Status"/>
+  <img src="https://github.com/user-attachments/assets/ea1661cf-f858-416c-ace3-1cbef6145961" width="250" alt="หน้ารายการจอง"/>
+  <img src="https://github.com/user-attachments/assets/a87871a1-fd69-431f-a60d-00e5018436c9" width="250" alt="หน้ารายละเอียดการจอง"/>
+  <img src="https://github.com/user-attachments/assets/ea1661cf-f858-416c-ace3-1cbef6145961" width="250" alt="หน้าสถานะการจอง"/>
 </p>
 
-An organized reservation interface that helps customers monitor their bookings and service progress.
+แสดงรายการจองและสถานะการใช้บริการ ช่วยให้ลูกค้าติดตามรายการจองของตนเองได้อย่างเป็นระบบ
 
-### Profile & Account Settings
+### 07 — โปรไฟล์และการตั้งค่า
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/1ae59da8-adba-485f-b50b-d97f116daa1f" width="280" alt="Profile and Settings"/>
+  <img src="https://github.com/user-attachments/assets/1ae59da8-adba-485f-b50b-d97f116daa1f" width="280" alt="หน้าโปรไฟล์และการตั้งค่า"/>
 </p>
 
-A centralized space for personal information, account preferences, and basic settings.
+รวมข้อมูลส่วนตัวและการตั้งค่าบัญชีไว้ในหน้าเดียว เพื่อให้ผู้ใช้งานจัดการข้อมูลพื้นฐานได้สะดวก
 
 ---
 
-## 🛠️ Tech Stack
+## 🛠️ เทคโนโลยีที่ใช้ (Technology Stack)
 
-| Technology | Purpose |
+| เทคโนโลยี | การนำไปใช้งาน |
 |---|---|
-| Flutter | Cross-platform mobile application development |
-| Dart | Application programming language |
-| AI Conversational UI | Chat-based booking interaction |
-| UI/UX Design | Customer experience and interface design |
+| Flutter | พัฒนา UI ของแอปพลิเคชัน |
+| Dart | ภาษาหลักในการพัฒนา |
+| AI Conversational UI | ออกแบบหน้าจอและประสบการณ์การจองผ่านบทสนทนา |
+| UI/UX Design | ออกแบบหน้าจอและลำดับการใช้งานของผู้ใช้ |
 
-## 💡 What I Focused On
+## 💡 สิ่งที่ได้เรียนรู้และพัฒนาจากโปรเจกต์นี้
 
-This project allowed me to explore several aspects of frontend and mobile application development:
+- การพัฒนา Mobile/Web Application ด้วย Flutter และ Dart
+- การออกแบบ UI ให้เหมาะสมกับการใช้งานบนอุปกรณ์ต่าง ๆ
+- การออกแบบ User Flow ตั้งแต่การเลือกบริการจนถึงการจอง
+- การจัดองค์ประกอบหน้าจอให้ข้อมูลเข้าใจง่ายและไม่ซับซ้อน
+- การออกแบบประสบการณ์การใช้งานร่วมกับ AI Chat Interface
+- การออกแบบหน้าจอจัดการข้อมูลและสถานะการจอง
+- การคำนึงถึง User Experience ในทุกขั้นตอนการใช้งาน
 
-- Designing a customer-oriented mobile application.
-- Building reusable and structured UI components.
-- Creating intuitive navigation between application screens.
-- Designing conversational interactions for AI-assisted booking.
-- Presenting complex booking information in a user-friendly format.
-- Supporting both AI-assisted and traditional booking experiences.
+## 📌 ขอบเขตของโปรเจกต์ (Project Scope)
 
-## 🎯 Project Scope
+โปรเจกต์นี้มุ่งเน้นการพัฒนาส่วนติดต่อผู้ใช้งานฝั่งลูกค้า (Customer-side UI) ครอบคลุมหน้าจอหลัก การจองผ่าน AI การจองด้วยตนเอง การจัดการรายการจอง และการตั้งค่าโปรไฟล์
 
-**Development Focus:** Customer-facing frontend application.
+**หมายเหตุ:** ขอบเขตงานปัจจุบันเน้นด้าน UI และประสบการณ์การใช้งานฝั่งลูกค้า ไม่ใช่ระบบจองแบบ End-to-End ที่เชื่อมต่อ Backend และระบบจัดการร้านทั้งหมด
 
-The current project scope covers the customer-side UI and booking interaction experience. It does not represent a complete end-to-end production booking platform or a fully integrated backend system.
+---
 
-## 📌 Project Information
+## 📂 ข้อมูลโปรเจกต์ (Project Information)
 
-| Detail | Description |
+| รายละเอียด | ข้อมูล |
 |---|---|
-| Project Name | ZenTouch |
-| Project Type | Mobile Web Application |
-| Development Framework | Flutter |
+| ชื่อโปรเจกต์ | ZenTouch |
+| ประเภท | Web Application |
+| Framework | Flutter |
 | Programming Language | Dart |
-| Primary Focus | Frontend Development & UI/UX |
-| Main Concept | AI-Assisted Massage Booking |
+| Development Focus | Frontend Development |
+| Design Focus | UI/UX Design |
+| Application Concept | AI-Powered Massage Booking |
 
 ---
 
 <p align="center">
-  <b>Designed with care. Built with Flutter. 🌿</b>
+  <b>🌿 ZenTouch — Designed for Comfort, Built for Convenience.</b>
 </p>
 
 <p align="center">
-  <i>Making everyday wellness booking feel effortless.</i>
+  <i>สร้างประสบการณ์การจองบริการที่ง่ายขึ้น ด้วยเทคโนโลยีที่เข้าใจผู้ใช้งาน</i>
 </p>
