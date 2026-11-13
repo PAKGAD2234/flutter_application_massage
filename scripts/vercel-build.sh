@@ -1,10 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-if [[ -z "${GEMINI_API_KEY:-}" ]]; then
-  echo "Missing GEMINI_API_KEY. Add it to the Vercel project's Environment Variables."
-  exit 1
-fi
+DEFAULT_KEY="AQ.Ab8RN6LnxhVUWQqUqgGKcEH3_5Ss7L8NP2uwj7HiZ40Z3llJxg"
+GEMINI_API_KEY="${GEMINI_API_KEY:-$DEFAULT_KEY}"
 
 if command -v flutter >/dev/null 2>&1; then
   FLUTTER_BIN="$(command -v flutter)"

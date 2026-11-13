@@ -13,9 +13,10 @@ Flutter Web demo for a massage-service chat and booking flow.
    publish `build/web`.
 4. Deploy or redeploy the project after adding the environment variable.
 
-The build fails with a clear message if `GEMINI_API_KEY` is missing. For a
-local web build, provide the key through `--dart-define` without putting it in
-source control:
+If `GEMINI_API_KEY` is not set in Vercel's Environment Variables, the build
+will automatically fallback to the configured default key. For a
+local web build, you can also provide a custom key through `--dart-define` or
+`--dart-define-from-file=.env`:
 
 ```bash
 flutter build web --release --dart-define=GEMINI_API_KEY=your-key

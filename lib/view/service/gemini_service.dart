@@ -20,8 +20,12 @@ class GeminiService {
       _ownsClient = client == null,
       _apiKey = apiKey ?? _configuredApiKey;
 
+  static const String _defaultApiKey =
+      'AQ.Ab8RN6LnxhVUWQqUqgGKcEH3_5Ss7L8NP2uwj7HiZ40Z3llJxg';
+
   static const String _configuredApiKey = String.fromEnvironment(
     'GEMINI_API_KEY',
+    defaultValue: _defaultApiKey,
   );
   static final Uri _endpoint = Uri.https(
     'generativelanguage.googleapis.com',
@@ -347,7 +351,8 @@ ${MassageMockData.staff.join(', ')}
     required List<ChatMessage> history,
     String? bookingContext,
   }) async {
-    if (_apiKey.isEmpty) {
+    final key = _apiKey.trim();
+    if (key.isEmpty) {
       throw const GeminiServiceException(
         'ยังไม่ได้ตั้งค่า Gemini API Key กรุณาตั้งค่า GEMINI_API_KEY '
         'แล้วเริ่มแอปใหม่',
@@ -404,7 +409,7 @@ ${MassageMockData.staff.join(', ')}
               _endpoint,
               headers: {
                 'Content-Type': 'application/json',
-                'x-goog-api-key': _apiKey,
+                'x-goog-api-key': key,
               },
               body: requestBody,
             )
